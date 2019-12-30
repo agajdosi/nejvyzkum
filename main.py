@@ -1,17 +1,35 @@
 import tornado.ioloop
 import tornado.web
 import sqlite3
-
-
+import random
 import argparse
 
 class Index(tornado.web.RequestHandler):
-    def get(self):
+    def get(self):        
         self.render("index.html", subtitle="Index")
 
 class Play(tornado.web.RequestHandler):
     def get(self):
-        self.render("play.html", subtitle="Play")
+        conn = sqlite3.connect('prod.db')
+        cursor = conn.execute("SELECT * FROM persons WHERE id IN (SELECT id FROM persons ORDER BY RANDOM() LIMIT 2)")
+        duo = cursor.fetchall()
+
+        cursor = conn.execute("SELECT * FROM questions WHERE id IN (SELECT id FROM questions ORDER BY RANDOM() LIMIT 1)")
+        question = cursor.fetchone()
+
+        conn.close()
+        random.shuffle(duo)
+        self.render("play.html", subtitle="Play", first=duo[0], second=duo[1], question=question)
+
+    def post(self):
+        question = self.get_argument("question")
+        yes = self.get_argument("yes")
+        no = self.get_argument("no")
+        
+        # save here to the database
+        print("TBD: save to DB:", question, yes, no)
+
+        self.redirect("/play")
 
 class Results(tornado.web.RequestHandler):
     def get(self):
