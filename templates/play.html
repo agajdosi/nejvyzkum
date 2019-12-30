@@ -12,13 +12,14 @@
 </head>
 
 <body>
-  
+
   <div class="question">
     {{ question[1] }}
   </div>
 
   <div class="person">
     {{ first[1] }}
+    <img src="img/{{ first[0] }}.jpg">
     <form action="" method="post">
       <input type="hidden" name="question" value="{{ question[0] }}">
       <input type="hidden" name="yes" value="{{ first[0] }}">
@@ -29,6 +30,7 @@
 
   <div class="person">
     {{ second[1] }}
+    <img src="img/{{ second[0] }}.jpg">
     <form action="" method="post">
       <input type="hidden" name="question" value="{{ question[0] }}">
       <input type="hidden" name="yes" value="{{ second[0] }}">
