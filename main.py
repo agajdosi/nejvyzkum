@@ -13,21 +13,24 @@ class Play(tornado.web.RequestHandler):
         conn = sqlite3.connect('prod.db')
         cursor = conn.execute("SELECT * FROM persons WHERE id IN (SELECT id FROM persons ORDER BY RANDOM() LIMIT 2)")
         duo = cursor.fetchall()
+        random.shuffle(duo)
 
         cursor = conn.execute("SELECT * FROM questions WHERE id IN (SELECT id FROM questions ORDER BY RANDOM() LIMIT 1)")
         question = cursor.fetchone()
 
         conn.close()
-        random.shuffle(duo)
         self.render("play.html", subtitle="Play", first=duo[0], second=duo[1], question=question)
 
     def post(self):
         question = self.get_argument("question")
-        yes = self.get_argument("yes")
-        no = self.get_argument("no")
-        
-        # save here to the database
-        print("TBD: save to DB:", question, yes, no)
+        yesPerson = self.get_argument("yes")
+        noPerson = self.get_argument("no")
+
+        conn = sqlite3.connect('prod.db')
+        conn.execute("INSERT INTO answers (question, person, answer) VALUES ('{0}', '{1}', '{2}')".format(question, yesPerson, 1))
+        conn.execute("INSERT INTO answers (question, person, answer) VALUES ('{0}', '{1}', '{2}')".format(question, noPerson, 0))
+        conn.commit()
+        conn.close()
 
         self.redirect("/play")
 
