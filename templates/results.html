@@ -16,7 +16,16 @@
     <div class="top">
       Results - TBD
     </div>
-    <div class="content">{% block content %}{% end %}</div>
+
+    <ul>
+      {% for stat in stats %}
+          <li>
+            {{ stat[0] }} {{ stat[1] }}, YES={{ stat[2] }}%, NO={{ stat[3] }}%
+          </li>
+      {% end %}
+    </ul>
+
+
   </div>
 </body>
 </html>
