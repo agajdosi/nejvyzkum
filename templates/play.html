@@ -9,35 +9,46 @@
   <meta name="author" content="Andreas Gajdosik">
 
   <link rel="stylesheet" type="text/css" href="css/play.css">
+  <link rel='stylesheet' href='//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack-subset.css'>
 </head>
 
 <body>
 
-  <div class="question">
-    {{ question[1] }}
+  <div class="heading">
+    <span class="question">Which one {{ question[1] }}?</span>
+    <span class="closer">kliknutím označte danou osobu</span>
   </div>
 
-  <div class="person">
-    {{ first[1] }}
-    <img src="img/{{ first[0] }}.jpg">
-    <form action="" method="post">
-      <input type="hidden" name="question" value="{{ question[0] }}">
-      <input type="hidden" name="yes" value="{{ first[0] }}">
-      <input type="hidden" name="no" value="{{ second[0] }}">
-      <input type="submit" value="more"/>
-    </form>
+  <div class="persons">
+    <div class="person">
+      <dimg class="portrait" src="img/{{ first[0] }}.jpg">
+      <form action="" method="post">
+        <input type="hidden" name="question" value="{{ question[0] }}">
+        <input type="hidden" name="yes" value="{{ first[0] }}">
+        <input type="hidden" name="no" value="{{ second[0] }}">
+        <input type="submit" value="" class="submit" style="background-image: url('img/{{ first[0] }}.jpg');"/>
+      </form>
+    </div>
+
+    <div class="person">
+      <dimg class="portrait" src="img/{{ second[0] }}.jpg">
+      <form action="" method="post">
+        <input type="hidden" name="question" value="{{ question[0] }}">
+        <input type="hidden" name="yes" value="{{ second[0] }}">
+        <input type="hidden" name="no" value="{{ first[0] }}">
+        <input type="submit" value="" class="submit" style="background-image: url('img/{{ second[0] }}.jpg');"/>
+      </form>
+    </div>
   </div>
 
-  <div class="person">
-    {{ second[1] }}
-    <img src="img/{{ second[0] }}.jpg">
-    <form action="" method="post">
-      <input type="hidden" name="question" value="{{ question[0] }}">
-      <input type="hidden" name="yes" value="{{ second[0] }}">
-      <input type="hidden" name="no" value="{{ first[0] }}">
-      <input type="submit" value="more"/>
-    </form>
-  </div>
+  <footer>
+    <div>
+      <a href="/">Home</a>
+      <a href="results">Results</a>
+    </div>
+    <div>licensed under <a href="https://github.com/raisely/NoHarm/blob/publish/LICENSE.md">NoHarm</a></div> 
+    <div>🄯2020 <a href="https://gajdosik.org"></a></div>
+  </footer>
 
 </body>
 </html>
