@@ -27,8 +27,8 @@ class Play(tornado.web.RequestHandler):
         noPerson = self.get_argument("no")
 
         conn = sqlite3.connect('prod.db')
-        conn.execute("INSERT INTO answers (question, person, answer) VALUES ('{0}', '{1}', '{2}')".format(question, yesPerson, 1))
-        conn.execute("INSERT INTO answers (question, person, answer) VALUES ('{0}', '{1}', '{2}')".format(question, noPerson, 0))
+        conn.execute("INSERT INTO answers (question, person, answer, versus) VALUES ('{0}', '{1}', '{2}', '{3}')".format(question, yesPerson, 1, noPerson))
+        conn.execute("INSERT INTO answers (question, person, answer, versus) VALUES ('{0}', '{1}', '{2}', '{3}')".format(question, noPerson, 0, yesPerson))
         conn.commit()
         conn.close()
 
@@ -36,6 +36,7 @@ class Play(tornado.web.RequestHandler):
 
 class Results(tornado.web.RequestHandler):
     def get(self):
+        # UGLY!! split to smaller functions
         conn = sqlite3.connect('prod.db')
         cursor = conn.execute("SELECT * FROM persons")
 
