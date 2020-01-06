@@ -1,0 +1,18 @@
+html {
+    font-size: 20px;
+    font-family: hack;
+}
+
+footer {
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 20px;
+}
+
+a {
+    color: inherit;
+}
