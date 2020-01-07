@@ -92,6 +92,7 @@ def make_app():
         (r'/js/(.*)', tornado.web.StaticFileHandler, {'path': 'js/'}),
         (r'/css/(.*)', tornado.web.StaticFileHandler, {'path': 'css/'}),
         (r'/img/(.*)', tornado.web.StaticFileHandler, {'path': 'img/'}),
+        (r'/(favicon\.ico)', tornado.web.StaticFileHandler, {'path': 'img/'}),
     ],
     template_path = "templates",
     debug = True
