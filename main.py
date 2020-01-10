@@ -67,7 +67,7 @@ class Results(tornado.web.RequestHandler):
                 if yes+no == 0:
                     continue
 
-                stats.append([person[1], question[1], 100*yes/(yes+no), 100*no/(yes+no)])
+                stats.append([person[1], question[4], 100*yes/(yes+no), 100*no/(yes+no)])
 
         conn.close()
         self.render("results.html", subtitle="Results", stats=stats)
