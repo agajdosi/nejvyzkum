@@ -8,7 +8,24 @@ from profile import getProfile
 
 class Index(tornado.web.RequestHandler):
     def get(self):
-        return self.render("index.html", subtitle="Index")
+        conn = sqlite3.connect('prod.db')
+        cursor = conn.execute("SELECT name FROM persons WHERE id IN (SELECT id FROM persons WHERE active = 1 ORDER BY RANDOM() LIMIT 1)")
+        name = cursor.fetchone()[0]
+
+        questions = [
+            "Je * samotář?",
+            "Je * introvert?",
+            "Je * agresivní?",
+            "Je * psychopat?",
+            "Je * sociopat?",
+            "Je * zlý?",
+            "Je * necita?"
+        ]
+
+        question = random.choice(questions)
+        question = question.replace("*", name)
+
+        return self.render("index.html", subtitle="Index", question=question)
 
 class Play(tornado.web.RequestHandler):
     def get(self):
