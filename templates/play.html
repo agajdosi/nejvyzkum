@@ -23,22 +23,20 @@
 
   <div class="persons">
     <div class="person">
-      <dimg class="portrait" src="img/{{ first[0] }}.jpg">
       <form action="" method="post">
         <input type="hidden" name="question" value="{{ question[0] }}">
         <input type="hidden" name="yes" value="{{ first[0] }}">
         <input type="hidden" name="no" value="{{ second[0] }}">
-        <input type="submit" value="" class="submit" style="background-image: url('img/{{ first[0] }}.jpg');"/>
+        <input type="submit" value="" class="submit" style="background-image: url('{{ first[3] }}');"/>
       </form>
     </div>
 
     <div class="person">
-      <dimg class="portrait" src="img/{{ second[0] }}.jpg">
       <form action="" method="post">
         <input type="hidden" name="question" value="{{ question[0] }}">
         <input type="hidden" name="yes" value="{{ second[0] }}">
         <input type="hidden" name="no" value="{{ first[0] }}">
-        <input type="submit" value="" class="submit" style="background-image: url('img/{{ second[0] }}.jpg');"/>
+        <input type="submit" value="" class="submit" style="background-image: url('{{ second[3] }}');"/>
       </form>
     </div>
   </div>

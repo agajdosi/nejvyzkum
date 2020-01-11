@@ -7,7 +7,7 @@ import argparse
 from profile import getProfile
 
 class Index(tornado.web.RequestHandler):
-    def get(self):        
+    def get(self):
         self.render("index.html", subtitle="Index")
 
 class Play(tornado.web.RequestHandler):

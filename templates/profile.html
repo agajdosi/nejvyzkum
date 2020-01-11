@@ -18,12 +18,12 @@
 
   <div class="heading">
     <span class="question">{{ profile["name"] }}</span>
-    <img src="img/{{profile['id']}}.jpg">
-    <span>Extroversion: {{ personality["extroversion"] }}, {{ personality["extroversion"]/personality["average"] }}</span>
-    <span>Agreeableness: {{ personality["agreeableness"] }}, {{ personality["agreeableness"]/personality["average"] }}</span>
-    <span>Conscientiousness: {{ personality["conscientiousness"] }}, {{ personality["conscientiousness"]/personality["average"] }}</span>
-    <span>Neuroticism: {{ personality["neuroticism"] }}, {{ personality["neuroticism"]/personality["average"] }}</span>
-    <span>Openness: {{ personality["openness"] }}, {{ personality["openness"]/personality["average"] }}</span>
+    <img src="{{ profile['image'] }}">
+    <span>Extroverze: {{ personality["extroversion"] }}, {{ personality["extroversion"]/personality["average"] }}</span>
+    <span>Přívětivost: {{ personality["agreeableness"] }}, {{ personality["agreeableness"]/personality["average"] }}</span>
+    <span>Svědomitost: {{ personality["conscientiousness"] }}, {{ personality["conscientiousness"]/personality["average"] }}</span>
+    <span>Neurotismus: {{ personality["neuroticism"] }}, {{ personality["neuroticism"]/personality["average"] }}</span>
+    <span>Otevřenost: {{ personality["openness"] }}, {{ personality["openness"]/personality["average"] }}</span>
   </div>
 
 
