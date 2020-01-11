@@ -8,12 +8,12 @@ from profile import getProfile
 
 class Index(tornado.web.RequestHandler):
     def get(self):
-        self.render("index.html", subtitle="Index")
+        return self.render("index.html", subtitle="Index")
 
 class Play(tornado.web.RequestHandler):
     def get(self):
         conn = sqlite3.connect('prod.db')
-        cursor = conn.execute("SELECT * FROM persons WHERE id IN (SELECT id FROM persons ORDER BY RANDOM() LIMIT 2)")
+        cursor = conn.execute("SELECT * FROM persons WHERE id IN (SELECT id FROM persons WHERE active = 1 ORDER BY RANDOM() LIMIT 2)")
         duo = cursor.fetchall()
         random.shuffle(duo)
 
@@ -21,7 +21,7 @@ class Play(tornado.web.RequestHandler):
         question = cursor.fetchone()
 
         conn.close()
-        self.render("play.html", subtitle="Play", first=duo[0], second=duo[1], question=question)
+        return self.render("play.html", subtitle="Play", first=duo[0], second=duo[1], question=question)
 
     def post(self):
         question = self.get_argument("question")
@@ -34,7 +34,7 @@ class Play(tornado.web.RequestHandler):
         conn.commit()
         conn.close()
 
-        self.redirect("/play")
+        return self.redirect("/play")
 
 class Results(tornado.web.RequestHandler):
     def get(self):
@@ -67,20 +67,22 @@ class Results(tornado.web.RequestHandler):
                 if yes+no == 0:
                     continue
 
-                stats.append([person[1], question[4], 100*yes/(yes+no), 100*no/(yes+no)])
+                stats.append([person[2], question[4], 100*yes/(yes+no), 100*no/(yes+no)])
 
         conn.close()
-        self.render("results.html", subtitle="Results", stats=stats)
+        return self.render("results.html", subtitle="Results", stats=stats)
 
 class Profile(tornado.web.RequestHandler):
     def get(self):
         personID = self.get_argument("id", default=None)
-        print(personID)
         if personID == None:
-            self.redirect("/")
+            return self.redirect("/")
 
         profile, personality = getProfile(personID)
-        self.render("profile.html", subtitle="Profile", profile=profile, personality=personality)
+        if profile["active"] == 0:
+            return self.redirect("/")
+
+        return self.render("profile.html", subtitle="Profile", profile=profile, personality=personality)
 
 def make_app():
     return tornado.web.Application([
