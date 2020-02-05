@@ -25,7 +25,7 @@ class Index(tornado.web.RequestHandler):
         question = random.choice(questions)
         question = question.replace("*", name)
 
-        return self.render("index.html", subtitle="Index", question=question)
+        return self.render("index.html", subtitle="Nejlepší z možných výzkumů!", question=question)
 
 class Play(tornado.web.RequestHandler):
     def get(self):
@@ -38,7 +38,7 @@ class Play(tornado.web.RequestHandler):
         question = cursor.fetchone()
 
         conn.close()
-        return self.render("play.html", subtitle="Play", first=duo[0], second=duo[1], question=question)
+        return self.render("play.html", subtitle="Dotazník", first=duo[0], second=duo[1], question=question)
 
     def post(self):
         question = self.get_argument("question")
@@ -87,7 +87,7 @@ class Results(tornado.web.RequestHandler):
                 stats.append([person[2], question[4], 100*yes/(yes+no), 100*no/(yes+no)])
 
         conn.close()
-        return self.render("results.html", subtitle="Results", stats=stats)
+        return self.render("results.html", subtitle="Výsledky", stats=stats)
 
 class Profile(tornado.web.RequestHandler):
     def get(self):
@@ -99,7 +99,7 @@ class Profile(tornado.web.RequestHandler):
         if profile["active"] == 0:
             return self.redirect("/")
 
-        return self.render("profile.html", subtitle="Profile", profile=profile, personality=personality)
+        return self.render("profile.html", subtitle="Profil", profile=profile, personality=personality)
 
 def make_app():
     return tornado.web.Application([
