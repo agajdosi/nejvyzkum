@@ -125,7 +125,7 @@ if __name__ == "__main__":
 
 
     if settings.args.ssl == True:
-        app.listen(443, ssl_options={
+        app.listen(settings.args.sslport, ssl_options={
             "certfile": "/etc/letsencrypt/live/nejvyzkum.cz/fullchain.pem",
             "keyfile": "/etc/letsencrypt/live/nejvyzkum.cz/privkey.pem",
         })
