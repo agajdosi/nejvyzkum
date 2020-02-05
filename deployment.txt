@@ -1,0 +1,47 @@
+1. git clone repository: `git clone https://github.com/agajdosi/nejvyzkum`
+2. install requirements: `pip3 install -r requirements.txt`
+3. create a service:
+
+```
+sudo nano /etc/systemd/system/nejvyzkum.service
+```
+
+insert:
+
+```
+[Unit]
+Description=Unusual subjects web server
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=inovotna
+WorkingDirectory=/home/myname/nejvyzkum
+ExecStart=python3 /home/myname/nejvyzkum/main.py
+
+[Install]
+WantedBy=multi-user.target
+```
+
+4. enable the service
+```
+sudo systemctl enable nejvyzkum
+sudo systemctl daemon-reload 
+```
+
+5. open port 80:
+```
+sudo firewall-cmd --add-service=http --permanent
+sudo firewall-cmd --reload
+```
+
+6. forward port 80 to 8080:
+```
+sudo firewall-cmd --zone=public --add-forward-port=port=80:proto=tcp:toport=8080
+sudo firewall-cmd --reload
+```
+
+7.
