@@ -2,8 +2,8 @@ import tornado.ioloop
 import tornado.web
 import sqlite3
 import random
-import argparse
 
+import settings
 from profile import getProfile
 
 class Index(tornado.web.RequestHandler):
@@ -118,12 +118,17 @@ def make_app():
     )
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--port", "-p", help="defines which port will be used by webserver", type=int, default=8080)
-    args = parser.parse_args()
+    settings.init()
 
     app = make_app()
-    app.listen(args.port)
+    app.listen(settings.args.port)
 
-    print("server has started: http://localhost:" + str(args.port))
+
+    if settings.args.ssl == True:
+        app.listen(443, ssl_options={
+            "certfile": "/etc/letsencrypt/live/nejvyzkum.cz/fullchain.pem",
+            "keyfile": "/etc/letsencrypt/live/nejvyzkum.cz/privkey.pem",
+        })
+
+    print("server has started: http://localhost:" + str(settings.args.port))
     tornado.ioloop.IOLoop.current().start()

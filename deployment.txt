@@ -44,4 +44,8 @@ sudo firewall-cmd --zone=public --add-forward-port=port=80:proto=tcp:toport=8080
 sudo firewall-cmd --reload
 ```
 
-7.
+7. add certs
+install certbot and then>
+```
+sudo certbot certonly --standalone --http-01-port 8080
+```
