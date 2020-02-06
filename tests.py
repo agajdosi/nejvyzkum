@@ -1,7 +1,7 @@
 import sqlite3
 
 def getBigFive(personID):
-    rs = getAllQuestionRatings(personID)
+    rs = getAllQuestionRatings(personID, "bigfive")
     personality = {}
     personality["extroversion"] = 20 + rs[0] - rs[5] + rs[10] - rs[15] + rs[20] - rs[25] + rs[30] - rs[35] + rs[40] - rs[45]
     personality["agreeableness"] = 14 - rs[1] + rs[6] - rs[11] + rs[16] - rs[21] + rs[26] - rs[31] + rs[36] + rs[41] + rs[46]
@@ -13,8 +13,20 @@ def getBigFive(personID):
 
     return personality
 
-def getAllQuestionRatings(personID):
-    IDs = range(1,51) #fixed, we know we do Big5 which has 50 questions
+def getTestQuestionIDs(test):
+    conn = sqlite3.connect('prod.db')
+    cursor = conn.execute("SELECT (id) FROM questions WHERE test = '{0}'".format(test))
+    IDs = cursor.fetchall()
+
+    testIDs = []
+    for ID in IDs:
+        testIDs.append(ID[0])
+    
+    return testIDs
+
+def getAllQuestionRatings(personID, testName):
+    IDs = getTestQuestionIDs(testName)
+
     ratings = []
     for questionID in IDs:
         rating = getQuestionRating(personID, questionID)

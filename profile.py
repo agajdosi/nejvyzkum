@@ -1,5 +1,5 @@
 import sqlite3
-from bigfive import getBigFive
+from tests import getBigFive
 
 def getProfile(personID):
     conn = sqlite3.connect('prod.db')
