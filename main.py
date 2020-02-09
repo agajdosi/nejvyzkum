@@ -95,11 +95,11 @@ class Profile(tornado.web.RequestHandler):
         if personID == None:
             return self.redirect("/")
 
-        profile, personality = getProfile(personID)
+        profile, bigFive, scl90 = getProfile(personID)
         if profile["active"] == 0:
             return self.redirect("/")
 
-        return self.render("profile.html", subtitle="Profil", profile=profile, personality=personality)
+        return self.render("profile.html", subtitle="Profil", profile=profile, bigFive=bigFive, scl90=scl90)
 
 def make_app():
     return tornado.web.Application([

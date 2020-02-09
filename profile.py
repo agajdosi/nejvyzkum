@@ -1,5 +1,5 @@
 import sqlite3
-from tests import getBigFive
+from tests import getBigFive, getSCL90
 
 def getProfile(personID):
     conn = sqlite3.connect('prod.db')
@@ -8,9 +8,10 @@ def getProfile(personID):
     profile = {"id":personID, "name":row[0], "active":row[1], "image":row[2]}
 
     #for now the BigFive is default and only test used
-    personality = getBigFive(personID)
+    bigFive = getBigFive(personID)
+    scl90 = getSCL90(personID)
 
-    return (profile, personality)
+    return (profile, bigFive, scl90)
 
 def getLinks():
     """

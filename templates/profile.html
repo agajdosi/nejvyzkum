@@ -21,11 +21,17 @@
   <div class="heading">
     <span class="question">{{ profile["name"] }}</span>
     <img src="{{ profile['image'] }}">
-    <span>Extroverze: {{ personality["extroversion"] }}, {{ personality["extroversion"]/personality["average"] }}</span>
-    <span>Přívětivost: {{ personality["agreeableness"] }}, {{ personality["agreeableness"]/personality["average"] }}</span>
-    <span>Svědomitost: {{ personality["conscientiousness"] }}, {{ personality["conscientiousness"]/personality["average"] }}</span>
-    <span>Neurotismus: {{ personality["neuroticism"] }}, {{ personality["neuroticism"]/personality["average"] }}</span>
-    <span>Otevřenost: {{ personality["openness"] }}, {{ personality["openness"]/personality["average"] }}</span>
+    <span>Somatizace: {{ scl90["somatization"] }}</span>
+    <span>Obsese-kompulze: {{ scl90["obsessiveCompulsive"] }}</span>
+    <span>Sensibilita: {{ scl90["interpersonalSensitivity"] }}</span>
+    <span>Deprese: {{ scl90["depression"] }}</span>
+    <span>Anxiozita: {{ scl90["anxiety"] }}</span>
+    <span>Hostilita: {{ scl90["hostility"] }}</span>
+    <span>Fóbie: {{ scl90["phobicAnxiety"] }}</span>
+    <span>Paranoidita: {{ scl90["paranoidIdeation"] }}</span>
+    <span>Psychocismus: {{ scl90["psychoticism"] }}</span>
+    <span>Obecná závažnost: {{ scl90["general"] }}</span>
+
     <canvas id="myChart" class="graph" width="400px" height="400px"></canvas>
   </div>
 
@@ -48,11 +54,11 @@ var myChart = new Chart(ctx, {
         datasets: [{
             label: 'odchylka',
             data: [
-              {{(personality["extroversion"]/personality["average"]-1)*100}} ,
-              {{(personality["agreeableness"]/personality["average"]-1)*100}},
-              {{(personality["conscientiousness"]/personality["average"]-1)*100}},
-              {{(personality["neuroticism"]/personality["average"]-1)*100}},
-              {{(personality["openness"]/personality["average"]-1)*100}}
+              {{(bigFive["extroversion"]/bigFive["average"]-1)*100}} ,
+              {{(bigFive["agreeableness"]/bigFive["average"]-1)*100}},
+              {{(bigFive["conscientiousness"]/bigFive["average"]-1)*100}},
+              {{(bigFive["neuroticism"]/bigFive["average"]-1)*100}},
+              {{(bigFive["openness"]/bigFive["average"]-1)*100}}
             ],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
