@@ -53,42 +53,6 @@ class Play(tornado.web.RequestHandler):
 
         return self.redirect("/play")
 
-class Results(tornado.web.RequestHandler):
-    def get(self):
-        # UGLY!! split to smaller functions
-        conn = sqlite3.connect('prod.db')
-        cursor = conn.execute("SELECT * FROM persons")
-
-        persons = cursor.fetchall()
-
-        stats = []
-        for person in persons:
-            personID = person[0]
-
-            cursor = conn.execute("SELECT * FROM questions")
-            questions = cursor.fetchall()
-
-            for question in questions:
-                questionID = question[0]
-                cursor = conn.execute("SELECT * FROM answers WHERE person = '{0}' AND  question = '{1}'".format(personID, questionID))
-                answers = cursor.fetchall()
-
-                yes = 0
-                no = 0
-                for answer in answers:
-                    if answer[3] == 1:
-                        yes = yes + 1
-                    else:
-                        no = no + 1
-
-                if yes+no == 0:
-                    continue
-
-                stats.append([person[2], question[4], 100*yes/(yes+no), 100*no/(yes+no)])
-
-        conn.close()
-        return self.render("results.html", subtitle="Výsledky", stats=stats)
-
 class Profile(tornado.web.RequestHandler):
     def get(self):
         personID = self.get_argument("id", default=None)
@@ -105,7 +69,6 @@ def make_app():
     return tornado.web.Application([
         (r"/", Index),
         (r"/play", Play),
-        (r"/results", Results),
         (r"/profile", Profile),
 
         (r'/js/(.*)', tornado.web.StaticFileHandler, {'path': 'js/'}),
