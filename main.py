@@ -4,7 +4,7 @@ import sqlite3
 import random
 
 import settings
-from profile import getProfile
+import profile
 
 class GeneralHandler(tornado.web.RequestHandler):
     def enforceSSL(self):
@@ -74,13 +74,15 @@ class Profile(GeneralHandler):
         
         personID = self.get_argument("id", default=None)
         if personID == None:
-            return self.redirect("/")
+            return self.redirect("/profile?id={}".format(random.randint(1,99)))
 
-        profile, bigFive, scl90 = getProfile(personID)
-        if profile["active"] == 0:
-            return self.redirect("/")
+        person = profile.getProfile(personID)
+        if person["active"] == 0:
+            return self.redirect("/profile?id={}".format(random.randint(1,99)))
 
-        return self.render("profile.html", subtitle="Profil", profile=profile, bigFive=bigFive, scl90=scl90)
+        bigFive, scl90 = profile.getResults(personID)
+
+        return self.render("profile.html", subtitle="Profil", profile=person, bigFive=bigFive, scl90=scl90)
 
 def make_app():
     return tornado.web.Application([

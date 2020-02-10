@@ -7,11 +7,13 @@ def getProfile(personID):
     row = cursor.fetchone()
     profile = {"id":personID, "name":row[0], "active":row[1], "image":row[2]}
 
-    #for now the BigFive is default and only test used
+    return profile
+
+def getResults(personID):
     bigFive = getBigFive(personID)
     scl90 = getSCL90(personID)
 
-    return (profile, bigFive, scl90)
+    return (bigFive, scl90)
 
 def getLinks():
     """
