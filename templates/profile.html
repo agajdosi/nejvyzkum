@@ -14,7 +14,7 @@
   
   <meta charset="utf-8">
 
-  <title>Nejvyzkum.cz - {{ subtitle }}</title>
+  <title>Nejvyzkum.cz - {{ profile["name"] }}</title>
   <meta name="description" content="{{ subtitle }}">
   <meta name="author" content="Andreas Gajdosik">
   <link href="/favicon.ico" rel="icon" type="image/x-icon"/>
@@ -31,19 +31,11 @@
   <div class="heading">
     <span class="question">{{ profile["name"] }}</span>
     <img src="{{ profile['image'] }}">
-    <span>Somatizace: {{ scl90["somatization"] }}</span>
-    <span>Obsese-kompulze: {{ scl90["obsessiveCompulsive"] }}</span>
-    <span>Sensibilita: {{ scl90["interpersonalSensitivity"] }}</span>
-    <span>Deprese: {{ scl90["depression"] }}</span>
-    <span>Anxiozita: {{ scl90["anxiety"] }}</span>
-    <span>Hostilita: {{ scl90["hostility"] }}</span>
-    <span>Fóbie: {{ scl90["phobicAnxiety"] }}</span>
-    <span>Paranoidita: {{ scl90["paranoidIdeation"] }}</span>
-    <span>Psychocismus: {{ scl90["psychoticism"] }}</span>
-    <span>Obecná závažnost: {{ scl90["general"] }}</span>
+    <!-- <span>{{ profile["hlaska"] }}</span> -->
 
-    <canvas id="scl90Graph" class="graph" width="800px" height="800px"></canvas>
     <canvas id="bigFiveGraph" class="graph" width="400px" height="400px"></canvas>
+    <canvas id="scl90Graph" class="graph" width="800px" height="800px"></canvas> 
+    <p class="disclaimer">*Vizualizace dat sesbíraných od návštěvníků této stránky. Nejedná se o výsledky osobnostního či psychologického testu vyplněného zobrazenou osobou. Nejde o tvrzení o duševním stavu zobrazené osoby. Nejde o její lékařskou diagnózu.</p>
   </div>
 
   <footer>
@@ -57,97 +49,13 @@
 </body>
 
 <script>
-
-var chartData = {
-			labels: ['Somatizace', 'Obsese-Kompulze', 'Hypersenzitivita', 'Deprese', 'Anxiozita', 'Hostilita', 'Fóbie', 'Paranoidita', 'Psychocismus', 'Obecná závažnost'],
-			datasets: [{
-				type: 'line',
-        showLine: false,
-        pointStyle: 'line',
-        pointRadius: 18,
-        borderWidth: 5,
-				label: 'Hranice onemocnění',
-        backgroundColor: "red",
-				borderColor: "red",
-				data: [
-					0.81,
-					1.07,
-					0.99,
-					0.99,
-					1.23,
-					0.78,
-					0.54,
-          0.80,
-          0.50,
-          0.89
-				]
-			}, {
-				type: 'line',
-        showLine: false,
-        pointStyle: 'line',
-        pointRadius: 18,
-        borderWidth: 5,
-				label: 'Hranice normy',
-				backgroundColor: "orange",
-        borderColor: 'orange',
-				data: [
-          0.75,
-					0.99,
-					0.65,
-					0.66,
-					0.80,
-					0.71,
-					0.36,
-          0.61,
-          0.34,
-          0.64
-				]
-			}, {
-				type: 'bar',
-				label: 'Naměřená hodnota',
-				backgroundColor: "green",
-				data: [
-          {{ scl90["somatization"] }},
-					{{ scl90["obsessiveCompulsive"] }},
-					{{ scl90["interpersonalSensitivity"] }},
-					{{ scl90["depression"] }},
-					{{ scl90["anxiety"] }},
-					{{ scl90["hostility"] }},
-					{{ scl90["phobicAnxiety"] }},
-          {{ scl90["paranoidIdeation"] }},
-          {{ scl90["psychoticism"] }},
-          {{ scl90["general"] }}
-				]
-			}]
-
-		};
-
-
-var scl = document.getElementById('scl90Graph').getContext('2d');
-var sclChart = new Chart(scl, {
-  type: 'bar',
-	data: chartData,
-	options: {
-		responsive: true,
-		title: {
-			display: true,
-			text: '{{ profile["name"] }}: Symptom Checklist 90',
-		},
-		tooltips: {
-			mode: 'index',
-			intersect: true
-		}
-	}
-});
-
-
-var bfg = document.getElementById('bigFiveGraph').getContext('2d');
+var bfg = document.getElementById('bigFiveGraph').getContext("2d");
 var bigFiveChart = new Chart(bfg, {
     type: 'bar',
     data: {
         labels: ['Extroverze', 'Přívětivost', 'Svědomitost', 'Neurotismus', 'Otevřenost'],
         datasets: [{
-            label: 'odchylka',
+            label: '',
             data: [
               {{(bigFive["extroversion"]/bigFive["average"]-1)*100}} ,
               {{(bigFive["agreeableness"]/bigFive["average"]-1)*100}},
@@ -175,12 +83,104 @@ var bigFiveChart = new Chart(bfg, {
     options: {
       title: {
         display: true,
-        text: '{{ profile["name"] }}: BigFive skóre',
+        text: 'Test osobnosti Big Five*',
+        fontSize: 30,
       },
       legend: {
         display: false,
       }
     }
+});
+
+
+var chartData = {
+			labels: ['Somatizace', 'Obsese-Kompulze', 'Hypersenzitivita', 'Deprese', 'Anxiozita', 'Hostilita', 'Fóbie', 'Paranoidita', 'Psychocismus', 'Obecná závažnost'],
+			datasets: [{
+				type: 'line',
+        showLine: false,
+        pointStyle: 'line',
+        pointRadius: 18,
+        borderWidth: 5,
+				label: 'Hranice onemocnění',
+        backgroundColor: 'red',
+				borderColor: 'red',
+				data: [
+					0.81,
+					1.07,
+					0.99,
+					0.99,
+					1.23,
+					0.78,
+					0.54,
+          0.80,
+          0.50,
+          0.89
+				]
+			}, {
+				type: 'line',
+        showLine: false,
+        pointStyle: 'line',
+        pointRadius: 18,
+        borderWidth: 5,
+				label: 'Hranice normy',
+				backgroundColor: 'orange',
+        borderColor: 'orange',
+				data: [
+          0.75,
+					0.99,
+					0.65,
+					0.66,
+					0.80,
+					0.71,
+					0.36,
+          0.61,
+          0.34,
+          0.64
+				]
+			},{
+				type: 'bar',
+        borderWidth: 5,
+				label: 'Naměřená hodnota',
+				backgroundColor: 'green',
+        borderColor: 'green',
+				data: [
+          {{ scl90["somatization"] }},
+					{{ scl90["obsessiveCompulsive"] }},
+					{{ scl90["interpersonalSensitivity"] }},
+					{{ scl90["depression"] }},
+					{{ scl90["anxiety"] }},
+					{{ scl90["hostility"] }},
+					{{ scl90["phobicAnxiety"] }},
+          {{ scl90["paranoidIdeation"] }},
+          {{ scl90["psychoticism"] }},
+          {{ scl90["general"] }}
+				]
+			}
+      ]
+		};
+
+
+var scl = document.getElementById('scl90Graph').getContext('2d');
+Chart.defaults.global.defaultFontColor = 'black';
+Chart.defaults.global.defaultFontSize = 20;
+var sclChart = new Chart(scl, {
+  type: 'bar',
+	data: chartData,
+	options: {
+		responsive: true,
+		title: {
+			display: true,
+			text: 'Psychometrika SCL90*',
+      fontSize: 30,
+		},
+    legend:{
+      reverse: true
+    },
+		tooltips: {
+			mode: 'index',
+			intersect: true
+		}
+	}
 });
 </script>
 

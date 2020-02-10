@@ -11,8 +11,13 @@
     font-size: 2em;
 }
 
+.disclaimer {
+    font-size: 0.7em;
+}
+
 .graph {
-    max-width: 400px;
+    max-width: 800px;
+    margin: 100px;
 }
 
 @media all and (max-width: 900px) {

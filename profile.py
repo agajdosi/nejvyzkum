@@ -5,7 +5,7 @@ def getProfile(personID):
     conn = sqlite3.connect('prod.db')
     cursor = conn.execute("SELECT name, active, image FROM persons WHERE id = '{0}'".format(personID))
     row = cursor.fetchone()
-    profile = {"id":personID, "name":row[0], "active":row[1], "image":row[2]}
+    profile = {"id":personID, "name":row[0], "active":row[1], "image":row[2], "hlaska": "Uvažoval jsem tak, že co není zákonem zakázáno, je možné dělat."}
 
     return profile
 
