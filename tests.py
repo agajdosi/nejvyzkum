@@ -42,28 +42,44 @@ def getTestQuestionIDs(test):
 
 def getAllQuestionRatings(personID, testName):
     IDs = getTestQuestionIDs(testName)
-
     ratings = []
     for questionID in IDs:
         rating = getQuestionRating(personID, questionID)
-        if rating < 0.2:
-            rating = 1
-        elif rating < 0.4:
-            rating = 2
-        elif rating < 0.6:
-            rating = 3
-        elif rating < 0.8:
-            rating = 4
-        elif rating < 1.0:
-            rating = 5
-
-        # scl90 has range of 0-4 points
-        if testName == "scl90":
-            rating = rating - 1
-
+        if testName == "bigfive":
+            rating = bigFiveQoef(rating)
+        elif testName == "scl90":
+            rating = scl90Qoef(rating)
         ratings.append(rating)
 
     return ratings
+
+def bigFiveQoef(rating):
+    if rating < 0.2:
+        rating = 1
+    elif rating < 0.4:
+        rating = 2
+    elif rating < 0.6:
+        rating = 3
+    elif rating < 0.8:
+        rating = 4
+    elif rating <= 1.0:
+        rating = 5
+    
+    return rating
+
+def scl90Qoef(rating):
+    if rating < 0.3:
+        rating = 0
+    elif rating < 0.6:
+        rating = 1
+    elif rating < 0.8:
+        rating = 2
+    elif rating < 0.9:
+        rating = 3
+    elif rating <= 1.0:
+        rating = 4
+    
+    return rating
 
 def getQuestionRating(personID, questionID):
     conn = sqlite3.connect('prod.db')
