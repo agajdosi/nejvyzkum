@@ -6,8 +6,19 @@ import random
 import settings
 from profile import getProfile
 
-class Index(tornado.web.RequestHandler):
+class GeneralHandler(tornado.web.RequestHandler):
+    def enforceSSL(self):
+        if settings.args.ssl == True and self.request.protocol == "http":
+            self.redirect('https://' + self.request.host, permanent=False)
+            return True
+
+        return False
+
+class Index(GeneralHandler):
     def get(self):
+        if self.enforceSSL():
+            return
+
         conn = sqlite3.connect('prod.db')
         cursor = conn.execute("SELECT name FROM persons WHERE id IN (SELECT id FROM persons WHERE active = 1 ORDER BY RANDOM() LIMIT 1)")
         name = cursor.fetchone()[0]
@@ -27,8 +38,11 @@ class Index(tornado.web.RequestHandler):
 
         return self.render("index.html", subtitle="Nejlepší z možných výzkumů!", question=question)
 
-class Play(tornado.web.RequestHandler):
+class Play(GeneralHandler):
     def get(self):
+        if self.enforceSSL():
+            return
+        
         conn = sqlite3.connect('prod.db')
         cursor = conn.execute("SELECT * FROM persons WHERE id IN (SELECT id FROM persons WHERE active = 1 ORDER BY RANDOM() LIMIT 2)")
         duo = cursor.fetchall()
@@ -53,8 +67,11 @@ class Play(tornado.web.RequestHandler):
 
         return self.redirect("/play")
 
-class Profile(tornado.web.RequestHandler):
+class Profile(GeneralHandler):
     def get(self):
+        if self.enforceSSL():
+            return
+        
         personID = self.get_argument("id", default=None)
         if personID == None:
             return self.redirect("/")
