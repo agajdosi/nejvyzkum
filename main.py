@@ -94,7 +94,7 @@ def make_app():
         (r'/(favicon\.ico)', tornado.web.StaticFileHandler, {'path': 'img/'}),
     ],
     template_path = "templates",
-    debug = True
+    debug = settings.args.debug
     )
 
 if __name__ == "__main__":
