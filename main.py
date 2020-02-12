@@ -66,7 +66,7 @@ class Play(GeneralHandler):
         conn.close()
 
         x = random.random()
-        if x > 0.95:
+        if x > 0.90:
             return self.redirect("/reward")
         else:
             return self.redirect("/play")
