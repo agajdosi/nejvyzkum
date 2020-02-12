@@ -29,9 +29,9 @@
 <body>
 
   <div class="heading">
-    <span class="question">{{ profile["name"] }}</span>
-    <img src="{{ profile['image'] }}">
-    <!-- <span>{{ profile["hlaska"] }}</span> -->
+    <span class="name">{{ profile["name"] }}</span>
+    <img class="portrait" src="{{ profile['image'] }}">
+    <div class="quote">{{ profile["quote"] }}</div>
 
     <canvas id="bigFiveGraph" class="graph" width="400px" height="400px"></canvas>
     <canvas id="scl90Graph" class="graph" width="800px" height="800px"></canvas> 

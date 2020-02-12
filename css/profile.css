@@ -7,8 +7,17 @@
     margin: 100px 50px 100px 50px;
 }
 
-.question {
+.name {
     font-size: 2em;
+}
+
+.portrait{
+    margin: 50px;
+}
+
+.quote{
+    max-width: 800px;
+    font-style: italic;
 }
 
 .disclaimer {
