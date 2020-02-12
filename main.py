@@ -84,6 +84,10 @@ class Profile(GeneralHandler):
 
         return self.render("profile.html", subtitle="Profil", profile=person, bigFive=bigFive, scl90=scl90)
 
+class NotFound(GeneralHandler):
+    def get(self):
+        self.render("404.html")
+
 def make_app():
     return tornado.web.Application([
         (r"/", Index),
@@ -96,7 +100,8 @@ def make_app():
         (r'/(favicon\.ico)', tornado.web.StaticFileHandler, {'path': 'img/'}),
     ],
     template_path = "templates",
-    debug = settings.args.debug
+    debug = settings.args.debug,
+    default_handler_class=NotFound
     )
 
 if __name__ == "__main__":
