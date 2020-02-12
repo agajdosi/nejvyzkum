@@ -65,7 +65,11 @@ class Play(GeneralHandler):
         conn.commit()
         conn.close()
 
-        return self.redirect("/play")
+        x = random.random()
+        if x > 0.95:
+            return self.redirect("/reward")
+        else:
+            return self.redirect("/play")
 
 class Profile(GeneralHandler):
     def get(self):
@@ -84,6 +88,39 @@ class Profile(GeneralHandler):
 
         return self.render("profile.html", subtitle="Profil", profile=person, bigFive=bigFive, scl90=scl90)
 
+class Reward(GeneralHandler):
+    def get(self):
+        conn = sqlite3.connect('prod.db')
+        cursor = conn.execute("SELECT id, name FROM persons WHERE id IN (SELECT id FROM persons WHERE active = 1 ORDER BY RANDOM() LIMIT 1)")
+        row = cursor.fetchone()
+        personID = row[0]
+        name = row[1]
+
+        cursor = conn.execute("SELECT question, answer FROM answers WHERE person = {0} AND question = (SELECT question FROM answers WHERE person = {0})".format(personID))
+        rows = cursor.fetchall()
+        
+        questionID = rows[0][0]
+        yes = 0
+        no = 0
+        for row in rows:
+            if row[1] == 1:
+                yes = yes + 1
+            else:
+                no = no + 1
+
+        answer = ""
+        if yes >= no:
+            answer = str(100*yes/(yes+no)) + "% lidí si myslí, že ANO!"
+        else:
+            answer = str(100*no/(yes+no)) + "% lidí si myslí, že NE!"
+        
+        cursor = conn.execute("SELECT cz FROM questions WHERE id = {0}".format(questionID))
+        row = cursor.fetchone()
+
+        question = name + " " + row[0]
+
+        self.render("reward.html", question=question, answer=answer)
+
 class NotFound(GeneralHandler):
     def get(self):
         self.render("404.html")
@@ -93,6 +130,7 @@ def make_app():
         (r"/", Index),
         (r"/play", Play),
         (r"/profile", Profile),
+        (r"/reward", Reward),
 
         (r'/js/(.*)', tornado.web.StaticFileHandler, {'path': 'js/'}),
         (r'/css/(.*)', tornado.web.StaticFileHandler, {'path': 'css/'}),
