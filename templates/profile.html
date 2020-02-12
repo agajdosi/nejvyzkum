@@ -15,7 +15,7 @@
   <meta charset="utf-8">
 
   <title>Nejvyzkum.cz - {{ profile["name"] }}</title>
-  <meta name="description" content="{{ subtitle }}">
+  <meta name="description" content="Nejvyzkum.cz - {{ subtitle }}">
   <meta name="author" content="Andreas Gajdosik">
   <link href="/favicon.ico" rel="icon" type="image/x-icon"/>
 
@@ -24,6 +24,11 @@
   <link rel='stylesheet' href='//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack-subset.css'>
 
   <script src="js/Chart.js"></script>
+
+  <meta property="og:title" content="Nejvyzkum.cz - {{ subtitle }}">
+  <meta property="og:description" content="Přehled osobnostních výsledků z námi získaných dat. Zkrátka výsledky toho nejlepšího z možných výzkumů!">
+  <meta property="og:image" content="{{ profile['image'] }}">
+  <meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body>
