@@ -1,0 +1,61 @@
+<!doctype html>
+
+<html lang="cz">
+<head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-158083031-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-158083031-1');
+    gtag('config', 'UA-158083031-4');
+  </script>
+
+  <meta charset="utf-8">
+
+  <title>Nejvyzkum.cz - {{ subtitle }}</title>
+  <meta name="description" content="Nejvyzkum.cz - {{ subtitle }}">
+  <meta name="author" content="Andreas Gajdosik">
+  <link href="/favicon.ico" rel="icon" type="image/x-icon"/>
+
+  <link rel="stylesheet" type="text/css" href="/css/main.css">
+  <link rel="stylesheet" type="text/css" href="/css/index.css">
+  <link rel='stylesheet' href='//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack-subset.css'>
+
+  <meta property="og:title" content="Nejvyzkum.cz - {{ subtitle }}">
+  <meta property="og:description" content="Nahlížíme do duše nejbohatších. Zkrátka ten nejlepší z možných výzkumů!">
+  <meta property="og:image" content="http://myelin.org/wp-content/uploads/2017/08/image05.jpg">
+  <meta property="og:url" content="https://www.nejvyzkum.cz">
+  <meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body>
+  <div class="logo">
+    Nejlepší z možných výzkumů!
+  </div>
+
+  <h1 class="slogan">
+    {{ question }}
+  </h1>
+
+  <div class="go">
+    <form action="/sedma-trida/hrat" method="get">
+      <input type="submit" value="Zjistit!" class="button" />
+    </form>
+  </div>
+
+  <footer>
+    <div>
+      <a href="/">nejvyzkum.cz</a>/<a href="/sedma-trida">7.třída</a>:
+      <a href="/sedma-trida/hrat">hrát</a> - <a href="/sedma-trida/profil">profil</a>
+    </div>
+    <div>
+      🄯2020
+      <a href="https://barborasimkova.cz">Šimková</a>,
+      <a href="https://gajdosik.org">Gajdošík</a>
+    </div>
+  </footer>
+
+</body>
+</html>

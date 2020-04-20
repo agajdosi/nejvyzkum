@@ -1,6 +1,28 @@
 import sqlite3, random
 import general
 
+class Index(general.GeneralHandler):
+    def get(self):
+        conn = sqlite3.connect('prod.db')
+        cursor = conn.execute("SELECT name FROM persons WHERE id IN (SELECT id FROM persons WHERE active = 1 ORDER BY RANDOM() LIMIT 1)")
+        name = cursor.fetchone()[0]
+
+        questions = [
+            "Je * samotář?",
+            "Je * introvert?",
+            "Je * agresivní?",
+            "Je * psychopat?",
+            "Je * sociopat?",
+            "Je * zlý?",
+            "Je * necita?"
+        ]
+
+        question = random.choice(questions)
+        question = question.replace("*", name)
+
+        return self.render("sedma/index.html", subtitle="Nejlepší z možných výzkumů!", question=question)
+    
+
 class Main(general.GeneralHandler):
     def get(self):
         if self.enforceSSL():
@@ -15,7 +37,7 @@ class Main(general.GeneralHandler):
         question = cursor.fetchone()
 
         conn.close()
-        return self.render("sedma/main.html", subtitle="Dotazník", first=duo[0], second=duo[1], question=question)
+        return self.render("sedma/hrat.html", subtitle="Dotazník", first=duo[0], second=duo[1], question=question)
 
     def post(self):
         question = self.get_argument("question")
@@ -32,7 +54,7 @@ class Main(general.GeneralHandler):
         if x > 0.90:
             return self.redirect("/sedma-trida/zajimavost")
         else:
-            return self.redirect("/sedma-trida")
+            return self.redirect("/sedma-trida/hrat")
 
 class Zajimavost(general.GeneralHandler):
     def get(self):
