@@ -1,5 +1,6 @@
 import tornado.ioloop
 import tornado.web
+import tornado.websocket
 import sqlite3
 import random
 
@@ -16,6 +17,12 @@ class NotFound(general.GeneralHandler):
     def get(self):
         self.render("404.html")
 
+class Game(GeneralHandler):
+    def get(self):
+        self.render("game.html")
+
+class WebSocket(tornado.webscoket.WebSocketHandler)
+
 def make_app():
     return tornado.web.Application([
         (r"/", Index),
@@ -24,6 +31,8 @@ def make_app():
         (r"/sedma-trida/hrat", sedma.Main),
         (r"/sedma-trida/profil", sedma.Profil),
         (r"/sedma-trida/zajimavost", sedma.Zajimavost),
+
+        (r"/game", Game),
 
         (r'/js/(.*)', tornado.web.StaticFileHandler, {'path': 'js/'}),
         (r'/css/(.*)', tornado.web.StaticFileHandler, {'path': 'css/'}),
