@@ -37,7 +37,7 @@ class Main(general.GeneralHandler):
         question = cursor.fetchone()
 
         conn.close()
-        return self.render("sedma/hrat.html", subtitle="Dotazník", first=duo[0], second=duo[1], question=question)
+        return self.render("sedma/hrat.html", subtitle="Sedmá třída: Dotazník", first=duo[0], second=duo[1], question=question)
 
     def post(self):
         question = self.get_argument("question")
@@ -87,7 +87,7 @@ class Zajimavost(general.GeneralHandler):
 
         question = name + " " + row[0]
 
-        self.render("sedma/zajimavost.html", question=question, answer=answer)
+        self.render("sedma/zajimavost.html", question=question, answer=answer, subtitle="Sedmá třída: Zajímavost")
 
 class Profil(general.GeneralHandler):
     def get(self):

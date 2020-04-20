@@ -31,24 +31,40 @@
 </head>
 
 <body>
-  <div class="logo">
-    Nejlepší z možných výzkumů!
-  </div>
+<div class="main">
 
-  <h1 class="slogan">
-    {{ question }}
+  <h1 class="textcenter">
+    Nejlepší z možných výzkumů!
   </h1>
 
-  <div class="go">
-    <form action="/sedma-trida" method="get">
-      <input type="submit" value="Zjistit!" class="button" />
-    </form>
+  <p class="textcenter">
+    Zkoumáme současný režim a jeho představitele.
+    Pátráme po psychice a morálních hodnotách nejbohatších.
+    Chceme vědět to, co by nám nikdy neřekli.
+    Zkoumáme nezkoumatelné.
+    Jdeme za hranice možností výzkumu - zkrátka nejlepší z možných výzkumů!
+  </p>
+
+
+
+  <div class="menu">
+    <div class="textcenter">
+      Prosím vyberte si výzkum:
+    </div>
+    <div class="buttons">
+
+      <form action="/sedma-trida" method="get">
+        <input type="submit" value="Sedmá třída!" class="button active" />
+      </form>
+
+      <form action="/sedma-trida" method="get">
+        <input type="submit" value="Korona speciál" class="button disabled" disabled/>
+      </form>
+    </div>
   </div>
 
   <footer>
     <div>
-      <a href="sedma-trida">hrát</a>
-      <a href="sedma-trida/profil">profil</a>
     </div>
     <div>
       🄯2020
@@ -57,5 +73,6 @@
     </div>
   </footer>
 
+</div>
 </body>
 </html>

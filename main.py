@@ -8,12 +8,18 @@ import general
 import profile
 import sedma
 
+class Index(general.GeneralHandler):
+    def get(self):
+        self.render("index.html", subtitle="Nejlepší z možných výzkumů")
+
 class NotFound(general.GeneralHandler):
     def get(self):
         self.render("404.html")
 
 def make_app():
     return tornado.web.Application([
+        (r"/", Index),
+
         (r"/sedma-trida", sedma.Index),
         (r"/sedma-trida/hrat", sedma.Main),
         (r"/sedma-trida/profil", sedma.Profil),

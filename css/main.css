@@ -1,6 +1,17 @@
 html {
     font-size: 20px;
     font-family: hack;
+    margin: 0px;
+}
+
+.main {
+    width: 1000px;
+    max-width: 75vw;
+    margin: 0 auto;
+}
+
+h1 {
+    margin: 100px;
 }
 
 footer {
@@ -10,9 +21,37 @@ footer {
     bottom: 0;
     left: 0;
     right: 0;
-    margin: 20px;
+    padding: 10px 20px;
+    background-color: white;
 }
 
 a {
     color: inherit;
+}
+
+.textcenter {
+    text-align: center;
+}
+
+.active{
+    background-color: #4CAF50;
+    cursor: pointer;
+}
+
+.disabled{
+    background-color: #bbbbbb;
+    cursor: wait;
+}
+
+.button {
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 2em;
+    font-family: hack;
+    margin: 20px;
+    min-width: 400px;
 }

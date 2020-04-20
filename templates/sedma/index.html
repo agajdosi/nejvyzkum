@@ -20,7 +20,7 @@
   <link href="/favicon.ico" rel="icon" type="image/x-icon"/>
 
   <link rel="stylesheet" type="text/css" href="/css/main.css">
-  <link rel="stylesheet" type="text/css" href="/css/index.css">
+  <link rel="stylesheet" type="text/css" href="/css/sedma/index.css">
   <link rel='stylesheet' href='//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack-subset.css'>
 
   <meta property="og:title" content="Nejvyzkum.cz - {{ subtitle }}">
@@ -31,18 +31,28 @@
 </head>
 
 <body>
-  <div class="logo">
-    Nejlepší z možných výzkumů!
-  </div>
+  <div class="main">
+    <h1 class="textcenter">
+      {{ question }}
+    </h1>
 
-  <h1 class="slogan">
-    {{ question }}
-  </h1>
-
-  <div class="go">
-    <form action="/sedma-trida/hrat" method="get">
-      <input type="submit" value="Zjistit!" class="button" />
-    </form>
+    <p class="textcenter">
+      Tvář a oči jsou oknem do duše.
+      A shodou okolností i jednou z mála věcí, kterou neskryje ani miliardář.
+    </p>
+    <p class="textcenter">
+      V následujícím testu Vám budeme zobrazovat dvojice miliardářů a Vy budete na základě jejich portrétů vybírat toho, který lépe odpovídá položené otázce.
+      S Vaší pomocí pak budeme schopni profilovat zkoumané osoby skrze algoritmy psychologických testů SCL90 a BigFive.
+    </p>
+    <p class="textcenter">
+      Když nám na otázky nechtějí odpovědět oni, musí nám odpovědět jejich tvář a Váš nejlepší úsudek.
+      Tak co, pomůžete nám?
+    </p>
+    <div class="go">
+      <form action="/sedma-trida/hrat" method="get">
+        <input type="submit" value="ANO" class="button active"/>
+      </form>
+    </div>
   </div>
 
   <footer>
