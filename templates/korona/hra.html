@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>title</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="/js/korona/hrat.js"></script>
+    <script type="application/javascript">
+      openWS("{{token}}");
+    </script>
+  </head>
+  <body>
+    <div class="suspects">
+      {% for x in range(16) %}
+        <div>{{x}}</div>
+      {% end %}
+    </div>
+
+    <button>Potvrdit</button>
+
+  </body>
+</html>

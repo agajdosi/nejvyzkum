@@ -1,13 +1,12 @@
 import tornado.ioloop
 import tornado.web
-import tornado.websocket
 import sqlite3
 import random
 
 import settings
 import general
 import profile
-import sedma
+import sedma, korona
 
 class Index(general.GeneralHandler):
     def get(self):
@@ -16,12 +15,6 @@ class Index(general.GeneralHandler):
 class NotFound(general.GeneralHandler):
     def get(self):
         self.render("404.html")
-
-class Game(GeneralHandler):
-    def get(self):
-        self.render("game.html")
-
-class WebSocket(tornado.webscoket.WebSocketHandler)
 
 def make_app():
     return tornado.web.Application([
@@ -32,10 +25,12 @@ def make_app():
         (r"/sedma-trida/profil", sedma.Profil),
         (r"/sedma-trida/zajimavost", sedma.Zajimavost),
 
-        (r"/game", Game),
+        (r"/korona", korona.Index),
+        (r"/korona/hra/(.{5,32})", korona.Hra),
+        (r"/korona/ws/(.{5,32})", korona.WebSocket),
 
-        (r'/js/(.*)', tornado.web.StaticFileHandler, {'path': 'js/'}),
-        (r'/css/(.*)', tornado.web.StaticFileHandler, {'path': 'css/'}),
+        (r'/js/(.*\.js)', tornado.web.StaticFileHandler, {'path': 'js/'}),
+        (r'/css/(.*\.css)', tornado.web.StaticFileHandler, {'path': 'css/'}),
         (r'/img/(.*)', tornado.web.StaticFileHandler, {'path': 'img/'}),
         (r'/(favicon\.ico)', tornado.web.StaticFileHandler, {'path': 'img/'}),
     ],
