@@ -20,14 +20,14 @@ def make_app():
     return tornado.web.Application([
         (r"/", Index),
 
-        (r"/sedma-trida", sedma.Index),
-        (r"/sedma-trida/hrat", sedma.Main),
-        (r"/sedma-trida/profil", sedma.Profil),
-        (r"/sedma-trida/zajimavost", sedma.Zajimavost),
+        (r"/sedma-trida/?", sedma.Index),
+        (r"/sedma-trida/hrat/?", sedma.Main),
+        (r"/sedma-trida/profil/?", sedma.Profil),
+        (r"/sedma-trida/zajimavost/?", sedma.Zajimavost),
 
-        (r"/korona", korona.Index),
-        (r"/korona/hra/(.{5,32})", korona.Hra),
-        (r"/korona/ws/(.{5,32})", korona.WebSocket),
+        (r"/korona/?", korona.Index),
+        (r"/korona/hra/(.{5,32})/?", korona.Hra),
+        (r"/korona/ws/(.{5,32})/?", korona.WebSocket),
 
         (r'/js/(.*\.js)', tornado.web.StaticFileHandler, {'path': 'js/'}),
         (r'/css/(.*\.css)', tornado.web.StaticFileHandler, {'path': 'css/'}),

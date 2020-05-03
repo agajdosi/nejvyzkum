@@ -7,6 +7,20 @@ function openWS(token){
     ws = new WebSocket(url);
 
     ws.onmessage = function (evt) {
-        alert(evt.data);
+        if (evt.data == "game is full") {
+            alert("Sorry this room is full");
+            window.location = "../";
+        };
+        if (evt.data == "roles are taken") {
+            alert("Sorry all roles were taken");
+            window.location = "../";
+        };
+        if (evt.data == "already connected") {
+            alert("Sorry you are already connected");
+            window.location = "../";
+        };
     };
 }
+
+
+
