@@ -35,8 +35,7 @@ class WebSocket(tornado.websocket.WebSocketHandler):
         self.gameExists()
         if self.checkRole() == False:
             return
-        if self.checkClient() == False:
-            return
+        self.games[self.token]["clients"].append(self)
 
         print(self.games)
         updateAll(self.games[self.token])
@@ -98,19 +97,7 @@ class WebSocket(tornado.websocket.WebSocketHandler):
         self.games[self.token]["data"]["witness"] = None
         self.games[self.token]["data"]["status"] = "created"
         self.games[self.token]["clients"] = []
-        print("game created")
-
-    def checkClient(self):
-        clients = len(self.games[self.token]["clients"]) 
-        if clients >= 2:
-            self.write_message("game is full")
-            return False
-
-        if clients == 1:
-            self.games[self.token]["data"]["status"] = "running"
- 
-        self.games[self.token]["clients"].append(self)
-        return True
+        print("game created")       
 
 def updateAll(game):
     json = tornado.escape.json_encode(game["data"])
