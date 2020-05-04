@@ -22,21 +22,47 @@ function openWS(token){
 
 function parseGameData(evt){
     game = JSON.parse(evt.data);
-    console.log(game)
-    
     if (identity == game["witness"]) {
-        document.getElementById("role").innerText = "You are a Witness!"
+        handleWitness(game);
     }
     if (identity == game["detective"]) {
-        document.getElementById("role").innerText = "You are a Detective!"
+        handleDetective(game);
+    }
+
+    document.getElementById("question").innerText = game["question"]
+
+}
+
+function handleWitness(game){
+    document.getElementById("role").innerText = "You are a Witness!";
+    document.getElementById("witnessUI").style.display = "block";
+    criminal = parseInt(game["criminal"])
+    document.getElementById(criminal).innerText = "PACHATEL/KA!";
+
+    if (game["turn"] == "witness"){
+        document.getElementById("onmove").innerText = "Jste na rade!"
+    } else {
+        document.getElementById("onmove").innerText = "Hraje policajt!"
+    }
+
+}
+
+function handleDetective(game){
+    document.getElementById("role").innerText = "You are a Detective!";
+    document.getElementById("detectiveUI").style.display = "block"; 
+    if (game["turn"] == "detective"){
+        document.getElementById("onmove").innerText = "Jste na rade!"
+    } else {
+        document.getElementById("onmove").innerText = "Hraje svedek!"
     }
 }
 
 
+function witnessAnswer(answer) {
+    console.log(answer);
+}
 
-
-
-function endTurn() {
+function detectiveAnswer() {
     console.log("it has been sent");
 }
 

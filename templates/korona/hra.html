@@ -16,14 +16,22 @@
 
     <div class="main">
       <div id="role"></div>
-      <div id="onmove">Hraje: svedek</div>
-      <div id="question">Question: Kdo odmita nosit rousku?</div>
+      <div id="onmove"></div>
+      <div id="question"></div>
+      <div id="witnessUI">
+        <button id="ANO" onclick="witnessAnswer(true)">ANO</button>
+        <button id="NE" onclick="witnessAnswer(false)">NE</button>
+      </div>
+      <div id="answer"></div>
       <div id="suspects">
         {% for x in range(16) %}
           <div id="{{x}}" class="suspect">{{x}}</div>
         {% end %}
       </div>
-    <button id="send" onclick="endTurn()">Potvrdit</button>
+
+      <div id="detectiveUI" disabled>
+        <button id="send" onclick="detectiveAnswer()">Potvrdit</button>
+      </div>
     </div>
 
 
