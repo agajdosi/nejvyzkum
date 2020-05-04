@@ -22,7 +22,7 @@ class WebSocket(tornado.websocket.WebSocketHandler):
     #    "clients": [object,object,object],
     #    "data": {
     #       "suspsects" : [id,id,id,id,id],
-    #       "disabled": [id,id],
+    #       "eliminated": [id,id],
     #       "criminal": [id],
     #       "status": "started",
     #       "detective": cookie,
@@ -48,6 +48,16 @@ class WebSocket(tornado.websocket.WebSocketHandler):
             print(message)
             self.games[self.token]["data"]["answer"] = message
             self.games[self.token]["data"]["turn"] = "detective"
+
+        if "eliminated" in message:
+            eliminated = int(message.split("=")[1])
+            
+            if eliminated == self.games[self.token]["data"]["criminal"]:
+                self.games[self.token]["data"]["status"] = "game lost"
+            else:
+                self.games[self.token]["data"]["eliminated"].append(eliminated)
+                self.games[self.token]["data"]["turn"] = "witness"
+
 
         updateAll(self.games[self.token])
 
@@ -102,7 +112,7 @@ class WebSocket(tornado.websocket.WebSocketHandler):
         self.games[self.token]["data"]["question"] = generateQuestion()
         self.games[self.token]["data"]["answer"] = None
         self.games[self.token]["data"]["criminal"] = self.games[self.token]["data"]["suspects"][random.randint(0,15)]
-        self.games[self.token]["data"]["disabled"] = []
+        self.games[self.token]["data"]["eliminated"] = []
         self.games[self.token]["data"]["detective"] = None
         self.games[self.token]["data"]["witness"] = None
         self.games[self.token]["data"]["turn"] = "witness"

@@ -9,9 +9,14 @@
     flex-basis: 25%;
     height: 20%;
     max-height: 200px;
-    background-image: url(https://mgwdata.net/forbes/prod/uploads/2019/10/komarek_casual.jpg);
     background-size: contain;
     background-repeat: no-repeat;
+    position: relative;
+}
+
+.portrait {
+    height: 100%;
+    width: 100%;
 }
 
 #witnessUI {
@@ -20,4 +25,14 @@
 
 #detectiveUI {
     display: none;
+}
+
+.eliminated {
+    display: none;
+    background-color: rgba(0, 0, 0, 0.87);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }

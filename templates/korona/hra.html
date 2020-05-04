@@ -18,14 +18,17 @@
       <div id="role"></div>
       <div id="onmove"></div>
       <div id="question"></div>
+      <div id="answer"></div>
       <div id="witnessUI">
         <button id="yes" onclick="witnessAnswer(true)">ANO</button>
         <button id="no" onclick="witnessAnswer(false)">NE</button>
       </div>
-      <div id="answer"></div>
       <div id="suspects">
         {% for x in range(16) %}
-          <div id="{{x}}" class="suspect">{{x}}</div>
+          <div id="{{x}}" class="suspect" onclick="suspectClick({{x}})">
+            <img class="portrait" src="https://mgwdata.net/forbes/prod/uploads/2019/10/komarek_casual.jpg">
+            <div id="eliminated{{x}}" class=eliminated></div>
+          </div>
         {% end %}
       </div>
 
