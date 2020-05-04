@@ -3,23 +3,29 @@
   <head>
     <meta charset="utf-8">
     <title>title</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="/js/korona/hrat.js"></script>
+    <link rel="stylesheet" href="/css/korona/hra.css">
+    <link rel="stylesheet" href="/css/main.css">
+
+    <script src="/js/korona/hra.js"></script>
     <script type="application/javascript">
       openWS("{{token}}");
     </script>
-  </head>
+
+</head>
   <body>
 
-    <div class="game">
-      <div class="suspects">
+    <div class="main">
+      <div id="role">Role</div>
+      <div id="question">Question</div>
+      <div id="suspects">
         {% for x in range(16) %}
-          <div>{{x}}</div>
+          <div id="{{x}}" class="suspect">{{x}}</div>
         {% end %}
       </div>
+      <button id="send">Potvrdit</button>
     </div>
 
-    <button>Potvrdit</button>
+
 
   </body>
 </html>
