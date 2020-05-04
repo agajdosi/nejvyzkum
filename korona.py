@@ -28,7 +28,8 @@ class WebSocket(tornado.websocket.WebSocketHandler):
     #       "detective": cookie,
     #       "witness": cookie,
     #       "move": "detective",
-    #       "question": "Fandi koronaviru?"
+    #       "question": "Fandi koronaviru?",
+    #       "answer": "true"
     #    }
     #}
 
@@ -43,7 +44,12 @@ class WebSocket(tornado.websocket.WebSocketHandler):
         updateAll(self.games[self.token])
 
     def on_message(self, message):
-        pass
+        if message == "true" or message == "false":
+            print(message)
+            self.games[self.token]["data"]["answer"] = message
+            self.games[self.token]["data"]["turn"] = "detective"
+
+        updateAll(self.games[self.token])
 
     def on_close(self):
         if self in self.games[self.token]["clients"]:
@@ -73,7 +79,7 @@ class WebSocket(tornado.websocket.WebSocketHandler):
             else:
                 self.games[self.token]["data"]["witness"] = cookie
             return True    
-        
+
         if detective == None:
             self.games[self.token]["data"]["detective"] = cookie
             return True
@@ -94,6 +100,7 @@ class WebSocket(tornado.websocket.WebSocketHandler):
         self.games[self.token] = {"data": {} }
         self.games[self.token]["data"]["suspects"] = generateSuspects()
         self.games[self.token]["data"]["question"] = generateQuestion()
+        self.games[self.token]["data"]["answer"] = None
         self.games[self.token]["data"]["criminal"] = self.games[self.token]["data"]["suspects"][random.randint(0,15)]
         self.games[self.token]["data"]["disabled"] = []
         self.games[self.token]["data"]["detective"] = None
@@ -104,6 +111,7 @@ class WebSocket(tornado.websocket.WebSocketHandler):
         print("game created")       
 
 def updateAll(game):
+    print("game=", game)
     json = tornado.escape.json_encode(game["data"])
     for client in game["clients"]:
         client.write_message(json)
