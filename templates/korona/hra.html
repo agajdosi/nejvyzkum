@@ -15,14 +15,15 @@
   <body>
 
     <div class="main">
-      <div id="role">Role</div>
-      <div id="question">Question</div>
+      <div id="role"></div>
+      <div id="onmove">Hraje: svedek</div>
+      <div id="question">Question: Kdo odmita nosit rousku?</div>
       <div id="suspects">
         {% for x in range(16) %}
           <div id="{{x}}" class="suspect">{{x}}</div>
         {% end %}
       </div>
-      <button id="send">Potvrdit</button>
+    <button id="send" onclick="endTurn()">Potvrdit</button>
     </div>
 
 
