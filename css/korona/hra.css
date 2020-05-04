@@ -13,3 +13,11 @@
     background-size: contain;
     background-repeat: no-repeat;
 }
+
+#witnessUI {
+    display: none;
+}
+
+#detectiveUI {
+    display: none;
+}

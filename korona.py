@@ -27,6 +27,8 @@ class WebSocket(tornado.websocket.WebSocketHandler):
     #       "status": "started",
     #       "detective": cookie,
     #       "witness": cookie,
+    #       "move": "detective",
+    #       "question": "Fandi koronaviru?"
     #    }
     #}
 
@@ -91,10 +93,12 @@ class WebSocket(tornado.websocket.WebSocketHandler):
             return
         self.games[self.token] = {"data": {} }
         self.games[self.token]["data"]["suspects"] = generateSuspects()
+        self.games[self.token]["data"]["question"] = generateQuestion()
         self.games[self.token]["data"]["criminal"] = self.games[self.token]["data"]["suspects"][random.randint(0,15)]
         self.games[self.token]["data"]["disabled"] = []
         self.games[self.token]["data"]["detective"] = None
         self.games[self.token]["data"]["witness"] = None
+        self.games[self.token]["data"]["turn"] = "witness"
         self.games[self.token]["data"]["status"] = "created"
         self.games[self.token]["clients"] = []
         print("game created")       
@@ -104,6 +108,16 @@ def updateAll(game):
     for client in game["clients"]:
         client.write_message(json)
 
+
+
+
+
+### MOCKING FUNCTIONS
+# needs to be written
+
+def generateQuestion():
+    return "Vnima pachatel/ka COVID-19 jako ocistu lidstva?"
+
 def generateSuspects():
-    suspects = list(range(1,17))
+    suspects = list(range(0,15))
     return suspects
