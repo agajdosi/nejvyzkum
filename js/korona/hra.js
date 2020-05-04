@@ -1,7 +1,7 @@
 identity = getCookie("nejvyzkum-player")
 token = null
 ws = null
-
+game = null
 
 function openWS(token){
     token = token
@@ -31,8 +31,18 @@ function parseGameData(evt){
         handleDetective(game);
     }
 
-    document.getElementById("question").innerText = game["question"]
+    for (i=0; i<game["eliminated"].length; i++) {
+        e = parseInt(game["eliminated"][i])
+        document.getElementById("eliminated"+e).style.display = "block";
+    }
 
+    if (game["answer"] == "true") {
+        document.getElementById("answer").innerText = "ANO!"
+    } else {
+        document.getElementById("answer").innerText = "NE!"
+    }
+
+    document.getElementById("question").innerText = game["question"]
 }
 
 function handleWitness(game){
@@ -44,10 +54,12 @@ function handleWitness(game){
     if (game["turn"] == "witness"){
         document.getElementById("yes").disabled = false;
         document.getElementById("no").disabled = false;
+        document.getElementById("answer").style.display = "none";
         document.getElementById("onmove").innerText = "Jste na rade!"
     } else {
         document.getElementById("yes").disabled = true;
         document.getElementById("no").disabled = true;
+        document.getElementById("answer").style.display = "block";
         document.getElementById("onmove").innerText = "Hraje policajt!"
     }
 
@@ -59,20 +71,26 @@ function handleDetective(game){
 
     if (game["turn"] == "detective"){
         document.getElementById("send").disabled = false;
+        document.getElementById("answer").style.display = "block";
         document.getElementById("onmove").innerText = "Jste na rade!"
     } else {
         document.getElementById("send").disabled = true;
+        document.getElementById("answer").style.display = "none";
         document.getElementById("onmove").innerText = "Hraje svedek!"
     }
 }
-
 
 function witnessAnswer(answer) {
     ws.send(answer);
 }
 
-function detectiveAnswer() {
-    console.log("it has been sent");
+function suspectClick(id) {
+    if (game["turn"] == "witness") {
+        return
+    }
+
+    message = "eliminated=" + parseInt(id)
+    ws.send(message)
 }
 
 function getCookie(name) {
