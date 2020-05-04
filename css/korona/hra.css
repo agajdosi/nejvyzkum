@@ -1,0 +1,15 @@
+#suspects {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    height: 90vh;
+}
+
+.suspect {
+    flex-basis: 25%;
+    height: 20%;
+    max-height: 200px;
+    background-image: url(https://mgwdata.net/forbes/prod/uploads/2019/10/komarek_casual.jpg);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
