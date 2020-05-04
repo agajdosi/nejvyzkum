@@ -36,6 +36,10 @@ function parseGameData(evt){
         document.getElementById("eliminated"+e).style.display = "block";
     }
 
+    if (game["status"] == "game lost"){
+        document.getElementById("game-over").style.display = "block";
+    }
+
     if (game["answer"] == "true") {
         document.getElementById("answer").innerText = "ANO!"
     } else {
@@ -86,6 +90,10 @@ function witnessAnswer(answer) {
 
 function suspectClick(id) {
     if (game["turn"] == "witness") {
+        return
+    }
+
+    if (identity == game["witness"]) {
         return
     }
 
