@@ -36,7 +36,7 @@ function parseGameData(evt){
         document.getElementById("eliminated"+e).style.display = "block";
     }
 
-    if (game["status"] == "game lost"){
+    if (game["finished"] == "lost"){
         document.getElementById("game-over").style.display = "block";
     }
 
