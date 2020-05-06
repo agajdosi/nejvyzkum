@@ -25,6 +25,7 @@ class WebSocket(tornado.websocket.WebSocketHandler):
     #       "eliminated": [id,id],
     #       "criminal": [id],
     #       "status": "started",
+    #       "finished": "no"
     #       "detective": cookie,
     #       "witness": cookie,
     #       "move": "detective",
@@ -44,6 +45,9 @@ class WebSocket(tornado.websocket.WebSocketHandler):
         updateAll(self.games[self.token])
 
     def on_message(self, message):
+        if self.games[self.token]["data"]["finished"] == "lost":
+            return
+
         if message == "true" or message == "false":
             print(message)
             self.games[self.token]["data"]["answer"] = message
@@ -53,11 +57,10 @@ class WebSocket(tornado.websocket.WebSocketHandler):
             eliminated = int(message.split("=")[1])
             
             if eliminated == self.games[self.token]["data"]["criminal"]:
-                self.games[self.token]["data"]["status"] = "game lost"
+                self.games[self.token]["data"]["finished"] = "lost"
             else:
                 self.games[self.token]["data"]["eliminated"].append(eliminated)
                 self.games[self.token]["data"]["turn"] = "witness"
-
 
         updateAll(self.games[self.token])
 
@@ -117,6 +120,7 @@ class WebSocket(tornado.websocket.WebSocketHandler):
         self.games[self.token]["data"]["witness"] = None
         self.games[self.token]["data"]["turn"] = "witness"
         self.games[self.token]["data"]["status"] = "created"
+        self.games[self.token]["data"]["finished"] = "no"
         self.games[self.token]["clients"] = []
         print("game created")       
 
@@ -132,6 +136,9 @@ def updateAll(game):
 
 ### MOCKING FUNCTIONS
 # needs to be written
+
+def restartGame():
+    return
 
 def generateQuestion():
     return "Vnima pachatel/ka COVID-19 jako ocistu lidstva?"
