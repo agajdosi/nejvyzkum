@@ -14,7 +14,10 @@
 </head>
   <body>
 
-    <div id="game-over">GAME OVER!</div>
+    <div id="game-over">
+      <div>GAME OVER!</div>
+      <div onclick="restartGame()">TRY AGAIN</div>
+    </div>
 
     <div class="main">
       <div id="role"></div>
@@ -28,8 +31,13 @@
       <div id="suspects">
         {% for x in range(16) %}
           <div id="{{x}}" class="suspect" onclick="suspectClick({{x}})">
-            <img class="portrait" src="https://mgwdata.net/forbes/prod/uploads/2019/10/komarek_casual.jpg">
-            <div id="eliminated{{x}}" class=eliminated></div>
+            <img class="portrait" src="">
+            <div class="criminal"></div>
+            <div class="name"></div>
+            <div class="info1"></div>
+            <div class="info2"></div>
+            <div class="info3"></div>
+            <div class=eliminated></div>
           </div>
         {% end %}
       </div>

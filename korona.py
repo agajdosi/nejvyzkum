@@ -21,7 +21,7 @@ class WebSocket(tornado.websocket.WebSocketHandler):
     #games = {"ajftoken": {
     #    "clients": [object,object,object],
     #    "data": {
-    #       "suspsects" : [id,id,id,id,id],
+    #       "suspsects" : [{id:14,picture:url,name:name},...],
     #       "eliminated": [id,id],
     #       "criminal": [id],
     #       "status": "started",
@@ -39,13 +39,15 @@ class WebSocket(tornado.websocket.WebSocketHandler):
         self.gameExists()
         if self.checkRole() == False:
             return
-        self.games[self.token]["clients"].append(self)
 
-        print(self.games)
-        updateAll(self.games[self.token])
+        self.games[self.token]["clients"].append(self)
+        self.updateAll()
+
 
     def on_message(self, message):
         if self.games[self.token]["data"]["finished"] == "lost":
+            if "pls-restart-game" in message:
+                self.restartGame()
             return
 
         if message == "true" or message == "false":
@@ -62,7 +64,7 @@ class WebSocket(tornado.websocket.WebSocketHandler):
                 self.games[self.token]["data"]["eliminated"].append(eliminated)
                 self.games[self.token]["data"]["turn"] = "witness"
 
-        updateAll(self.games[self.token])
+        self.updateAll()
 
     def on_close(self):
         if self in self.games[self.token]["clients"]:
@@ -70,7 +72,7 @@ class WebSocket(tornado.websocket.WebSocketHandler):
             self.games[self.token]["data"]["status"] = "paused"
             print("client left")
             print(self.games[self.token])
-            updateAll(self.games[self.token])
+            self.updateAll()
         else:
             print("non participating client left")
 
@@ -83,10 +85,7 @@ class WebSocket(tornado.websocket.WebSocketHandler):
         detective = self.games[self.token]["data"]["detective"]
         witness = self.games[self.token]["data"]["witness"]
         
-        if cookie == detective:
-            return True
-        if cookie == witness:
-            self.sendCriminalID()
+        if cookie == detective or cookie == witness:
             return True
 
         if detective == None and witness == None:
@@ -94,7 +93,6 @@ class WebSocket(tornado.websocket.WebSocketHandler):
                 self.games[self.token]["data"]["detective"] = cookie
             else:
                 self.games[self.token]["data"]["witness"] = cookie
-                self.sendCriminalID()
             return True    
 
         if detective == None:
@@ -103,55 +101,64 @@ class WebSocket(tornado.websocket.WebSocketHandler):
         
         if witness == None:
             self.games[self.token]["data"]["witness"] = cookie
-            self.sendCriminalID()
             return True
         
         if detective != None and witness != None:
             self.write_message("roles are taken")
             return False
-        print("random")
 
     def gameExists(self):
         if self.games.get(self.token) != None:
             print("game exists")
             return
+
         self.games[self.token] = {"data": {} }
-        self.games[self.token]["data"]["suspects"] = generateSuspects()
-        self.games[self.token]["data"]["question"] = generateQuestion()
-        self.games[self.token]["data"]["answer"] = None
-        self.games[self.token]["data"]["criminal"] = self.games[self.token]["data"]["suspects"][random.randint(0,15)]
-        self.games[self.token]["data"]["eliminated"] = []
         self.games[self.token]["data"]["detective"] = None
         self.games[self.token]["data"]["witness"] = None
-        self.games[self.token]["data"]["turn"] = "witness"
         self.games[self.token]["data"]["status"] = "created"
-        self.games[self.token]["data"]["finished"] = "no"
         self.games[self.token]["clients"] = []
-        print("game created")       
+        self.generateGameData()
+        print("game created")
 
-    def sendCriminalID(self):
-        msg = "criminal=" + str(self.games[self.token]["data"]["criminal"])
-        self.write_message(msg)
+    def generateGameData(self):
+        self.games[self.token]["data"]["suspects"] = generateSuspects()
+        self.games[self.token]["data"]["question"] = generateQuestion()
+        self.games[self.token]["data"]["criminal"] = random.randint(0,15)
+        self.games[self.token]["data"]["eliminated"] = []
+        self.games[self.token]["data"]["answer"] = None
+        self.games[self.token]["data"]["finished"] = "no"
+        self.games[self.token]["data"]["turn"] = "witness"
 
-def updateAll(game):
-    print("game=", game)
-    json = tornado.escape.json_encode(game["data"])
-    for client in game["clients"]:
-        client.write_message(json)
+    def restartGame(self):
+        self.generateGameData()
+        self.games[self.token]["data"]["detective"], self.games[self.token]["data"]["witness"] = self.games[self.token]["data"]["witness"], self.games[self.token]["data"]["detective"]
+        self.updateAll()
 
-
-
-
+    def updateAll(self):
+        print("game=", self.games[self.token])
+        for client in self.games[self.token]["clients"]:
+            if client.get_cookie("nejvyzkum-player") == self.games[self.token]["data"]["detective"]:
+                game = copy.deepcopy(self.games[self.token]["data"])
+                del game["criminal"]
+            else:
+                game = self.games[self.token]["data"]
+            json = tornado.escape.json_encode(game)
+            client.write_message(json)
 
 ### MOCKING FUNCTIONS
 # needs to be written
-
-def restartGame():
-    return
 
 def generateQuestion():
     return "Vnima pachatel/ka COVID-19 jako ocistu lidstva?"
 
 def generateSuspects():
-    suspects = list(range(0,15))
+    suspects = []
+    for x in range(0,16):
+        suspect = {
+            "id": x,
+            "picture": "https://mgwdata.net/forbes/prod/uploads/2019/10/komarek_casual.jpg",
+            "name": "Karl Komarxek"
+        }
+        suspects.append(suspect)
+
     return suspects
