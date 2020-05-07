@@ -15,6 +15,11 @@ function openWS(token){
             return
         };
 
+        if (evt.data.includes("criminal=")) {
+            criminal = evt.data.split("=")[1]
+            document.getElementById(criminal).innerText = "PACHATEL/KA!";
+        }
+
         parseGameData(evt);
 
     };
@@ -52,8 +57,6 @@ function parseGameData(evt){
 function handleWitness(game){
     document.getElementById("role").innerText = "You are a Witness!";
     document.getElementById("witnessUI").style.display = "block";
-    criminal = parseInt(game["criminal"])
-    document.getElementById(criminal).innerText = "PACHATEL/KA!";
 
     if (game["turn"] == "witness"){
         document.getElementById("yes").disabled = false;

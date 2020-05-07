@@ -83,7 +83,10 @@ class WebSocket(tornado.websocket.WebSocketHandler):
         detective = self.games[self.token]["data"]["detective"]
         witness = self.games[self.token]["data"]["witness"]
         
-        if cookie == detective or cookie == witness:
+        if cookie == detective:
+            return True
+        if cookie == witness:
+            self.sendCriminalID()
             return True
 
         if detective == None and witness == None:
@@ -91,6 +94,7 @@ class WebSocket(tornado.websocket.WebSocketHandler):
                 self.games[self.token]["data"]["detective"] = cookie
             else:
                 self.games[self.token]["data"]["witness"] = cookie
+                self.sendCriminalID()
             return True    
 
         if detective == None:
@@ -99,6 +103,7 @@ class WebSocket(tornado.websocket.WebSocketHandler):
         
         if witness == None:
             self.games[self.token]["data"]["witness"] = cookie
+            self.sendCriminalID()
             return True
         
         if detective != None and witness != None:
@@ -123,6 +128,10 @@ class WebSocket(tornado.websocket.WebSocketHandler):
         self.games[self.token]["data"]["finished"] = "no"
         self.games[self.token]["clients"] = []
         print("game created")       
+
+    def sendCriminalID(self):
+        msg = "criminal=" + str(self.games[self.token]["data"]["criminal"])
+        self.write_message(msg)
 
 def updateAll(game):
     print("game=", game)
