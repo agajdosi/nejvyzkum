@@ -42,7 +42,7 @@ class Main(general.GeneralHandler):
 
         conn = sqlite3.connect('prod.db')
         conn.execute("INSERT INTO answers (question, person, answer, versus) VALUES ('{0}', '{1}', '{2}', '{3}')".format(question, yesPerson, 1, noPerson))
-        conn.execute("INSERT INTO answers (question, person, answer, versus) VALUES ('{0}', '{1}', '{2}', '{3}')".format(question, noPerson, 0, yesPerson))
+        conn.execute("INSERT INTO answers (question, person, answer, versus) VALUES ('{0}', '{1}', '{2}', '{3}')".format(question, noPerson, -1, yesPerson))
         conn.commit()
         conn.close()
 
@@ -195,19 +195,16 @@ def scl90Qoef(rating):
 
 def getQuestionRating(personID, questionID):
     conn = sqlite3.connect('prod.db')
-    cursor = conn.execute("SELECT * FROM answers WHERE person = '{0}' AND  question = '{1}'".format(personID, questionID))
-    answers = cursor.fetchall()
-    if len(answers) == 0:
+    cursor = conn.execute("SELECT answer FROM answers WHERE person = '{0}' AND  question = '{1}'".format(personID, questionID))
+    rows = cursor.fetchall()
+    if len(rows) == 0:
         return 0.5
 
-    yes, no = 0, 0
-    for answer in answers:
-        if answer[3] == 1:
-            yes = yes + 1
-        elif answer[3] == 0:
-            no = no + 1
-        else:
-            pass #wrong data, do not count
-    
-    rating = yes/(yes+no)
+    answers = []
+    for row in rows:
+        answers.append(row[0])
+
+    rating = sum(answers)/len(answers)
+    rating = (rating + 1) / 2
+    print(rating)
     return rating
