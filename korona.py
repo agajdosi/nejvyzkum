@@ -148,7 +148,9 @@ class WebSocket(tornado.websocket.WebSocketHandler):
     def updateAll(self):
         print("game=", self.games[self.token])
         for client in self.games[self.token]["clients"]:
-            if client.get_cookie("nejvyzkum-player") == self.games[self.token]["data"]["detective"]:
+            if self.games[self.token]["data"]["finished"] != "no":
+                game = self.games[self.token]["data"]
+            elif client.get_cookie("nejvyzkum-player") == self.games[self.token]["data"]["detective"]:
                 game = copy.deepcopy(self.games[self.token]["data"])
                 del game["criminal"]
             else:
