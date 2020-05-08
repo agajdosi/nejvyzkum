@@ -1,7 +1,39 @@
 import sqlite3, random
 
 def parsePersonRow(row):
-    profile = {"id":row[0], "active":row[1], "name":row[2], "image":row[3], "quote": row[4]}
+    profile = {
+        "id":row[0],
+        "active":row[1],
+        "name":row[2],
+        "image":row[3],
+        "quote": row[4],
+        "quote-en": row[5],
+        "mainsource": row[6],
+        "mainsource-en": row[7],
+        "sidesource": row[8],
+        "sidesource-en": row[9],
+        "birthday": row[10],
+        "residence": row[11],
+        "residence-en": row[12],
+        "birthplace": row[13],
+        "birthplace-en": row[14],
+        "education": row[15],
+        "education-en": row[16],
+        "maritalstatus": row[17],
+        "maritalstatus-en": row[18],
+        "children": row[19],
+        "obsession": row[20],
+        "obsession-en": row[21],
+        "car": row[22],
+        "maincompany": row[23],
+        "maincompany-en": row[24],
+        "sidecompanies": row[25],
+        "sidecompanies-en": row[26],
+        "wealthorigin": row[27],
+        "wealthorigin-en": row[28],
+        "wealth": row[29],
+        "wealth-en": row[30],
+    }
     return profile
 
 def getPerson(personID):
