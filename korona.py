@@ -51,18 +51,12 @@ class WebSocket(tornado.websocket.WebSocketHandler):
             return
 
         if message == "true" or message == "false":
-            print(message)
             self.games[self.token]["data"]["answer"] = message
             self.games[self.token]["data"]["turn"] = "detective"
 
         if "eliminated" in message:
             eliminated = int(message.split("=")[1])
-            
-            if eliminated == self.games[self.token]["data"]["criminal"]:
-                self.games[self.token]["data"]["finished"] = "lost"
-            else:
-                self.games[self.token]["data"]["eliminated"].append(eliminated)
-                self.games[self.token]["data"]["turn"] = "witness"
+            self.eliminateSuspect(eliminated)
 
         self.updateAll()
 
@@ -79,6 +73,23 @@ class WebSocket(tornado.websocket.WebSocketHandler):
         if self.games[self.token]["clients"] == []:
             del self.games[self.token]
             print("the game has been deleted")
+
+    def eliminateSuspect(self, eliminated):
+        if eliminated in self.games[self.token]["data"]["eliminated"]:
+            return
+        if self.games[self.token]["data"]["finished"] != "no":
+            return
+
+        self.games[self.token]["data"]["eliminated"].append(eliminated)
+        if eliminated == self.games[self.token]["data"]["criminal"]:
+            self.games[self.token]["data"]["finished"] = "lost"
+            return
+        
+        if len(self.games[self.token]["data"]["eliminated"]) == 15:
+            self.games[self.token]["data"]["finished"] = "won"
+            return
+        
+        self.games[self.token]["data"]["turn"] = "witness"
 
     def checkRole(self):
         cookie = self.get_cookie("nejvyzkum-player")

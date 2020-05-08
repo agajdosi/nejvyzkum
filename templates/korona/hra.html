@@ -14,9 +14,14 @@
 </head>
   <body>
 
-    <div id="game-over">
+    <div id="game-lost" class="endGameWindow">
       <div>GAME OVER!</div>
-      <div onclick="restartGame()">TRY AGAIN</div>
+      <div onclick="restartGame()">try again</div>
+    </div>
+
+    <div id="game-won" class="endGameWindow">
+      <div>YOU WON!</div>
+      <div onclick="restartGame()">play again</div>
     </div>
 
     <div class="main">

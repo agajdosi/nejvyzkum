@@ -23,8 +23,6 @@ function parseGameData(evt){
     game = JSON.parse(evt.data);
     console.log(game);
 
-    
-
     if (identity == game["witness"]) {
         handleWitness();
     }
@@ -32,16 +30,11 @@ function parseGameData(evt){
         handleDetective();
     }
 
-    // Handle Game Over menu
-    if (game["finished"] == "lost"){
-        document.getElementById("game-over").style.display = "block";
-    } else {
-        document.getElementById("game-over").style.display = "none";
-    }
-
     renderSuspects();
-    renderAnswer();
     renderQuestion();
+    renderAnswer();
+    renderGameOver();
+    renderGameWon();
 }
 
 function renderSuspects() {
@@ -76,6 +69,22 @@ function renderAnswer() {
         document.getElementById("answer").innerText = "ANO!"
     } else {
         document.getElementById("answer").innerText = "NE!"
+    }
+}
+
+function renderGameOver(){
+    if (game["finished"] == "lost"){
+        document.getElementById("game-lost").style.display = "block";
+    } else {
+        document.getElementById("game-lost").style.display = "none";
+    }
+}
+
+function renderGameWon(){
+    if (game["finished"] == "won"){
+        document.getElementById("game-won").style.display = "block";
+    } else {
+        document.getElementById("game-won").style.display = "won";
     }
 }
 
