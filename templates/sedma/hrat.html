@@ -25,7 +25,7 @@
 
   <meta property="og:title" content="Nejvyzkum.cz - {{ subtitle }}">
   <meta property="og:description" content="Zadejte Váš názor a pomožte nám nahlédnout do duše nejbohatších. Zapojte se do toho nejlepší z možných výzkumů!">
-  <meta property="og:image" content="{{ first[3] }}">
+  <meta property="og:image" content="{{ first['image'] }}">
   <meta property="og:url" content="https://www.nejvyzkum.cz/play">
   <meta name="twitter:card" content="summary_large_image">
 </head>
@@ -41,18 +41,18 @@
     <div class="person">
       <form action="" method="post">
         <input type="hidden" name="question" value="{{ question[0] }}">
-        <input type="hidden" name="yes" value="{{ first[0] }}">
-        <input type="hidden" name="no" value="{{ second[0] }}">
-        <input type="submit" value="" class="submit" style="background-image: url('{{ first[3] }}');"/>
+        <input type="hidden" name="yes" value="{{ first['id'] }}">
+        <input type="hidden" name="no" value="{{ second['id'] }}">
+        <input type="submit" value="" class="submit" style="background-image: url('{{ first['image'] }}');"/>
       </form>
     </div>
 
     <div class="person">
       <form action="" method="post">
         <input type="hidden" name="question" value="{{ question[0] }}">
-        <input type="hidden" name="yes" value="{{ second[0] }}">
-        <input type="hidden" name="no" value="{{ first[0] }}">
-        <input type="submit" value="" class="submit" style="background-image: url('{{ second[3] }}');"/>
+        <input type="hidden" name="yes" value="{{ second['id'] }}">
+        <input type="hidden" name="no" value="{{ first['id'] }}">
+        <input type="submit" value="" class="submit" style="background-image: url('{{ second['image'] }}');"/>
       </form>
     </div>
   </div>

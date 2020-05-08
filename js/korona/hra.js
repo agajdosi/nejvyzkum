@@ -39,7 +39,7 @@ function parseGameData(evt){
 
 function renderSuspects() {
     for(var i = 0; i < game["suspects"].length; i++) {
-        document.getElementById(i).getElementsByClassName("portrait")[0].src = game["suspects"][i]["picture"];
+        document.getElementById(i).getElementsByClassName("portrait")[0].src = game["suspects"][i]["image"];
         document.getElementById(i).getElementsByClassName("criminal")[0].innerText = null;
         document.getElementById(i).getElementsByClassName("eliminated")[0].style.display = "none";
     }

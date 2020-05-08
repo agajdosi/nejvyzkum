@@ -1,11 +1,9 @@
 import sqlite3, random
-import general
+import general, database
 
 class Index(general.GeneralHandler):
     def get(self):
-        conn = sqlite3.connect('prod.db')
-        cursor = conn.execute("SELECT name FROM persons WHERE id IN (SELECT id FROM persons WHERE active = 1 ORDER BY RANDOM() LIMIT 1)")
-        name = cursor.fetchone()[0]
+        person = database.getRandomPersons(1)[0]
 
         questions = [
             "Je * samotář?",
@@ -18,7 +16,7 @@ class Index(general.GeneralHandler):
         ]
 
         question = random.choice(questions)
-        question = question.replace("*", name)
+        question = question.replace("*", person["name"])
 
         return self.render("sedma/index.html", subtitle="Nejlepší z možných výzkumů!", question=question)
     
@@ -28,11 +26,9 @@ class Main(general.GeneralHandler):
         if self.enforceSSL():
             return
         
-        conn = sqlite3.connect('prod.db')
-        cursor = conn.execute("SELECT * FROM persons WHERE id IN (SELECT id FROM persons WHERE active = 1 ORDER BY RANDOM() LIMIT 2)")
-        duo = cursor.fetchall()
-        random.shuffle(duo)
+        duo = database.getRandomPersons(2)
 
+        conn = sqlite3.connect('prod.db')
         cursor = conn.execute("SELECT * FROM questions WHERE id IN (SELECT id FROM questions ORDER BY RANDOM() LIMIT 1)")
         question = cursor.fetchone()
 
@@ -58,13 +54,10 @@ class Main(general.GeneralHandler):
 
 class Zajimavost(general.GeneralHandler):
     def get(self):
-        conn = sqlite3.connect('prod.db')
-        cursor = conn.execute("SELECT id, name FROM persons WHERE id IN (SELECT id FROM persons WHERE active = 1 ORDER BY RANDOM() LIMIT 1)")
-        row = cursor.fetchone()
-        personID = row[0]
-        name = row[1]
+        person = database.getRandomPersons(1)[0]
 
-        cursor = conn.execute("SELECT question, answer FROM answers WHERE person = {0} AND question = (SELECT question FROM answers WHERE person = {0})".format(personID))
+        conn = sqlite3.connect('prod.db')
+        cursor = conn.execute("SELECT question, answer FROM answers WHERE person = {0} AND question = (SELECT question FROM answers WHERE person = {0})".format(person["id"]))
         rows = cursor.fetchall()
         
         questionID = rows[0][0]
@@ -85,7 +78,7 @@ class Zajimavost(general.GeneralHandler):
         cursor = conn.execute("SELECT cz FROM questions WHERE id = {0}".format(questionID))
         row = cursor.fetchone()
 
-        question = name + " " + row[0]
+        question = person["name"] + " " + row[0]
 
         self.render("sedma/zajimavost.html", question=question, answer=answer, subtitle="Sedmá třída: Zajímavost")
 
@@ -98,7 +91,7 @@ class Profil(general.GeneralHandler):
         if personID == None:
             return self.redirect("/sedma-trida/profil?id={}".format(random.randint(1,99)))
 
-        person = getProfile(personID)
+        person = database.getPerson(personID)
         if person["active"] == 0:
             return self.redirect("/sedma-trida/profil?id={}".format(random.randint(1,99)))
 
@@ -106,18 +99,6 @@ class Profil(general.GeneralHandler):
 
         return self.render("sedma/profil.html", subtitle="Profil", profile=person, bigFive=bigFive, scl90=scl90)
 
-def getProfile(personID):
-    conn = sqlite3.connect('prod.db')
-    cursor = conn.execute("SELECT name, active, image, quote FROM persons WHERE id = '{0}'".format(personID))
-    row = cursor.fetchone()
-    quote = row[3]
-    if quote != None:
-        quote = "„" + row[3] + "“"
-    else:
-        quote = ""
-    profile = {"id":personID, "name":row[0], "active":row[1], "image":row[2], "quote": quote}
-
-    return profile
 
 def getResults(personID):
     bigFive = getBigFive(personID)

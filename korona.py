@@ -1,6 +1,6 @@
-import general
 import secrets, random, copy
 import tornado.websocket, tornado.escape
+import general, database
 
 class Index(general.GeneralHandler):
     def get(self):
@@ -21,7 +21,7 @@ class WebSocket(tornado.websocket.WebSocketHandler):
     #games = {"ajftoken": {
     #    "clients": [object,object,object],
     #    "data": {
-    #       "suspsects" : [{id:14,picture:url,name:name},...],
+    #       "suspsects" : [{id:14,image:url,name:name},...],
     #       "eliminated": [id,id],
     #       "criminal": [id],
     #       "status": "started",
@@ -158,20 +158,13 @@ class WebSocket(tornado.websocket.WebSocketHandler):
             json = tornado.escape.json_encode(game)
             client.write_message(json)
 
+def generateSuspects():
+    return database.getRandomPersons(16)
+
 ### MOCKING FUNCTIONS
 # needs to be written
 
 def generateQuestion():
     return "Vnima pachatel/ka COVID-19 jako ocistu lidstva?"
 
-def generateSuspects():
-    suspects = []
-    for x in range(0,16):
-        suspect = {
-            "id": x,
-            "picture": "https://mgwdata.net/forbes/prod/uploads/2019/10/komarek_casual.jpg",
-            "name": "Karl Komarxek"
-        }
-        suspects.append(suspect)
 
-    return suspects
