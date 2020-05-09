@@ -36,6 +36,18 @@ def parsePersonRow(row):
     }
     return profile
 
+def parseQuestion(row):
+    question = {
+        "id": row[0],
+        "eng-pre": row[1],
+        "eng": row[2],
+        "cz-pre": row[3],
+        "cz": row[4],
+        "test": row[5],
+    }
+    return question
+
+
 def getPerson(personID):
     conn = sqlite3.connect('prod.db')
     cursor = conn.execute("SELECT * FROM persons WHERE id = '{0}'".format(personID))
@@ -53,3 +65,10 @@ def getRandomPersons(count):
 
     random.shuffle(profiles)
     return profiles
+
+def getRandomQuestion(type):
+    conn = sqlite3.connect('prod.db')
+    cursor = conn.execute("SELECT * FROM questions WHERE id IN (SELECT id FROM questions WHERE test = '{0}' ORDER BY RANDOM() LIMIT 1)".format(type))
+    row = cursor.fetchone()
+
+    return parseQuestion(row)

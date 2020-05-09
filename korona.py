@@ -90,6 +90,7 @@ class WebSocket(tornado.websocket.WebSocketHandler):
             return
         
         self.games[self.token]["data"]["turn"] = "witness"
+        self.games[self.token]["data"]["question"] = database.getRandomQuestion("korona")
 
     def checkRole(self):
         cookie = self.get_cookie("nejvyzkum-player")
@@ -132,8 +133,8 @@ class WebSocket(tornado.websocket.WebSocketHandler):
         print("game created")
 
     def generateGameData(self):
-        self.games[self.token]["data"]["suspects"] = generateSuspects()
-        self.games[self.token]["data"]["question"] = generateQuestion()
+        self.games[self.token]["data"]["suspects"] = database.getRandomPersons(16)
+        self.games[self.token]["data"]["question"] = database.getRandomQuestion("korona")
         self.games[self.token]["data"]["criminal"] = random.randint(0,15)
         self.games[self.token]["data"]["eliminated"] = []
         self.games[self.token]["data"]["answer"] = None
@@ -148,23 +149,15 @@ class WebSocket(tornado.websocket.WebSocketHandler):
     def updateAll(self):
         print("game=", self.games[self.token])
         for client in self.games[self.token]["clients"]:
-            if self.games[self.token]["data"]["finished"] != "no":
+            if "lost" in self.games[self.token]["data"]["finished"]:
+                game = self.games[self.token]["data"]
+            elif "won" in self.games[self.token]["data"]["finished"]:
                 game = self.games[self.token]["data"]
             elif client.get_cookie("nejvyzkum-player") == self.games[self.token]["data"]["detective"]:
                 game = copy.deepcopy(self.games[self.token]["data"])
                 del game["criminal"]
             else:
                 game = self.games[self.token]["data"]
+                
             json = tornado.escape.json_encode(game)
             client.write_message(json)
-
-def generateSuspects():
-    return database.getRandomPersons(16)
-
-### MOCKING FUNCTIONS
-# needs to be written
-
-def generateQuestion():
-    return "Vnima pachatel/ka COVID-19 jako ocistu lidstva?"
-
-

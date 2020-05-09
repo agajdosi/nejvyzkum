@@ -55,7 +55,7 @@ function renderSuspects() {
 }
 
 function renderQuestion() {
-    document.getElementById("question").innerText = game["question"];
+    document.getElementById("question").innerText = game["question"]["cz"];
 }
 
 function renderAnswer() {
