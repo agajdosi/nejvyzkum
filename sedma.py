@@ -36,15 +36,12 @@ class Main(general.GeneralHandler):
         return self.render("sedma/hrat.html", subtitle="Sedmá třída: Dotazník", first=duo[0], second=duo[1], question=question)
 
     def post(self):
-        question = self.get_argument("question")
-        yesPerson = self.get_argument("yes")
-        noPerson = self.get_argument("no")
+        question = int(self.get_argument("question"))
+        yesPerson = int(self.get_argument("yes"))
+        noPerson = int(self.get_argument("no"))
 
-        conn = sqlite3.connect('prod.db')
-        conn.execute("INSERT INTO answers (question, person, answer, versus) VALUES ('{0}', '{1}', '{2}', '{3}')".format(question, yesPerson, 1, noPerson))
-        conn.execute("INSERT INTO answers (question, person, answer, versus) VALUES ('{0}', '{1}', '{2}', '{3}')".format(question, noPerson, -1, yesPerson))
-        conn.commit()
-        conn.close()
+        database.InsertAnswer(question, 1.0, yesPerson, noPerson)
+        database.InsertAnswer(question, -1.0, noPerson, yesPerson)
 
         x = random.random()
         if x > 0.90:

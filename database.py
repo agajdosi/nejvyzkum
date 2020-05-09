@@ -36,7 +36,7 @@ def parsePersonRow(row):
     }
     return profile
 
-def parseQuestion(row):
+def parseQuestionRow(row):
     question = {
         "id": row[0],
         "eng-pre": row[1],
@@ -71,4 +71,13 @@ def getRandomQuestion(type):
     cursor = conn.execute("SELECT * FROM questions WHERE id IN (SELECT id FROM questions WHERE test = '{0}' ORDER BY RANDOM() LIMIT 1)".format(type))
     row = cursor.fetchone()
 
-    return parseQuestion(row)
+    return parseQuestionRow(row)
+
+def InsertAnswer(question: int, answer: float, who: int, versus: int) -> None:
+    """
+    Inserts an answer into a database. Answer should be between -1.0 (100% NO) and 1.0 (100% YES).
+    """
+    conn = sqlite3.connect('prod.db')
+    conn.execute("INSERT INTO answers (question, person, answer, versus) VALUES ('{0}', '{1}', '{2}', '{3}')".format(question, who, answer, versus))
+    conn.commit()
+    conn.close()
