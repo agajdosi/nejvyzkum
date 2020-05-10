@@ -3,7 +3,7 @@ import general, database
 
 class Index(general.GeneralHandler):
     def get(self):
-        person = database.getRandomPersons(1)[0]
+        person = database.GetRandomPersons(1)[0]
 
         questions = [
             "Je * samotář?",
@@ -19,14 +19,13 @@ class Index(general.GeneralHandler):
         question = question.replace("*", person["name"])
 
         return self.render("sedma/index.html", subtitle="Nejlepší z možných výzkumů!", question=question)
-    
 
 class Main(general.GeneralHandler):
     def get(self):
         if self.enforceSSL():
             return
         
-        duo = database.getRandomPersons(2)
+        duo = database.GetRandomPersons(2)
 
         conn = sqlite3.connect('prod.db')
         cursor = conn.execute("SELECT * FROM questions WHERE id IN (SELECT id FROM questions ORDER BY RANDOM() LIMIT 1)")
@@ -51,7 +50,7 @@ class Main(general.GeneralHandler):
 
 class Zajimavost(general.GeneralHandler):
     def get(self):
-        person = database.getRandomPersons(1)[0]
+        person = database.GetRandomPersons(1)[0]
 
         conn = sqlite3.connect('prod.db')
         cursor = conn.execute("SELECT question, answer FROM answers WHERE person = {0} AND question = (SELECT question FROM answers WHERE person = {0})".format(person["id"]))
@@ -79,20 +78,14 @@ class Zajimavost(general.GeneralHandler):
 
         self.render("sedma/zajimavost.html", question=question, answer=answer, subtitle="Sedmá třída: Zajímavost")
 
-def getResults(personID):
-    bigFive = getBigFive(personID)
-    scl90 = getSCL90(personID)
-
-    return (bigFive, scl90)
-
-def getLinks():
-    """
-    Generates links to next and previous profiles.
-    """
-    return
-
 def getBigFive(personID):
-    rs = getAllQuestionRatings(personID, "bigfive")
+    IDs = database.GetAllTestQuestionsIDs("bigfive")
+    rs = []
+    for questionID in IDs:
+        rating = database.GetAnswerAverage(personID, questionID)
+        rating = bigFiveQoef(rating)
+        rs.append(rating)
+
     bigFive = {}
     bigFive["extroversion"] = 20 + rs[0] - rs[5] + rs[10] - rs[15] + rs[20] - rs[25] + rs[30] - rs[35] + rs[40] - rs[45]
     bigFive["agreeableness"] = 14 - rs[1] + rs[6] - rs[11] + rs[16] - rs[21] + rs[26] - rs[31] + rs[36] + rs[41] + rs[46]
@@ -105,7 +98,13 @@ def getBigFive(personID):
     return bigFive
 
 def getSCL90(personID):
-    rs = getAllQuestionRatings(personID, "scl90")
+    IDs = database.GetAllTestQuestionsIDs("scl90")
+    rs = []
+    for questionID in IDs:
+        rating = database.GetAnswerAverage(personID, questionID)
+        rating = scl90Qoef(rating)
+        rs.append(rating)
+
     scl90 = {}
     scl90["somatization"] = (rs[0] + rs[3] + rs[11] + rs[26] + rs[39] + rs[41] + rs[47] + rs[48] + rs[51] + rs[52] + rs[55] + rs[57] ) / 12
     scl90["obsessiveCompulsive"] = (rs[2] + rs[8] + rs[9] + rs[27] + rs[37] + rs[44] + rs[45] + rs[50] + rs[54] + rs[64]) / 10
@@ -119,30 +118,6 @@ def getSCL90(personID):
     scl90["general"] = sum(rs) / 90
     
     return scl90
-
-def getTestQuestionIDs(test):
-    conn = sqlite3.connect('prod.db')
-    cursor = conn.execute("SELECT (id) FROM questions WHERE test = '{0}'".format(test))
-    IDs = cursor.fetchall()
-
-    testIDs = []
-    for ID in IDs:
-        testIDs.append(ID[0])
-    
-    return testIDs
-
-def getAllQuestionRatings(personID, testName):
-    IDs = getTestQuestionIDs(testName)
-    ratings = []
-    for questionID in IDs:
-        rating = getQuestionRating(personID, questionID)
-        if testName == "bigfive":
-            rating = bigFiveQoef(rating)
-        elif testName == "scl90":
-            rating = scl90Qoef(rating)
-        ratings.append(rating)
-
-    return ratings
 
 def bigFiveQoef(rating):
     if rating < 0.2:
@@ -170,20 +145,4 @@ def scl90Qoef(rating):
     elif rating <= 1.0:
         rating = 4
     
-    return rating
-
-def getQuestionRating(personID, questionID):
-    conn = sqlite3.connect('prod.db')
-    cursor = conn.execute("SELECT answer FROM answers WHERE person = '{0}' AND  question = '{1}'".format(personID, questionID))
-    rows = cursor.fetchall()
-    if len(rows) == 0:
-        return 0.5
-
-    answers = []
-    for row in rows:
-        answers.append(row[0])
-
-    rating = sum(answers)/len(answers)
-    rating = (rating + 1) / 2
-
     return rating
