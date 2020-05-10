@@ -1,12 +1,6 @@
-import tornado.ioloop
-import tornado.web
-import sqlite3
-import random
-
-import settings
-import general
-import profile
-import sedma, korona
+import tornado.ioloop, tornado.web
+import sqlite3, random
+import sedma, korona, vysledky, general, settings
 
 class Index(general.GeneralHandler):
     def get(self):
@@ -19,10 +13,10 @@ class NotFound(general.GeneralHandler):
 def make_app():
     return tornado.web.Application([
         (r"/", Index),
+        (r"/profil/?", vysledky.Profil),
 
         (r"/sedma-trida/?", sedma.Index),
         (r"/sedma-trida/hrat/?", sedma.Main),
-        (r"/sedma-trida/profil/?", sedma.Profil),
         (r"/sedma-trida/zajimavost/?", sedma.Zajimavost),
 
         (r"/korona/?", korona.Index),

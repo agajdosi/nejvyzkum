@@ -79,24 +79,6 @@ class Zajimavost(general.GeneralHandler):
 
         self.render("sedma/zajimavost.html", question=question, answer=answer, subtitle="Sedmá třída: Zajímavost")
 
-class Profil(general.GeneralHandler):
-    def get(self):
-        if self.enforceSSL():
-            return
-        
-        personID = self.get_argument("id", default=None)
-        if personID == None:
-            return self.redirect("/sedma-trida/profil?id={}".format(random.randint(1,99)))
-
-        person = database.getPerson(personID)
-        if person["active"] == 0:
-            return self.redirect("/sedma-trida/profil?id={}".format(random.randint(1,99)))
-
-        bigFive, scl90 = getResults(personID)
-
-        return self.render("sedma/profil.html", subtitle="Profil", profile=person, bigFive=bigFive, scl90=scl90)
-
-
 def getResults(personID):
     bigFive = getBigFive(personID)
     scl90 = getSCL90(personID)
@@ -203,5 +185,5 @@ def getQuestionRating(personID, questionID):
 
     rating = sum(answers)/len(answers)
     rating = (rating + 1) / 2
-    print(rating)
+
     return rating
