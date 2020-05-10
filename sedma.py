@@ -51,32 +51,17 @@ class Main(general.GeneralHandler):
 class Zajimavost(general.GeneralHandler):
     def get(self):
         person = database.GetRandomPersons(1)[0]
+        question = database.GetRandomQuestion("scl90") # idealne by melo brat i vice testu
+        average = database.GetAnswerAverage(person["id"],question["id"])
 
-        conn = sqlite3.connect('prod.db')
-        cursor = conn.execute("SELECT question, answer FROM answers WHERE person = {0} AND question = (SELECT question FROM answers WHERE person = {0})".format(person["id"]))
-        rows = cursor.fetchall()
-        
-        questionID = rows[0][0]
-        yes = 0
-        no = 0
-        for row in rows:
-            if row[1] == 1:
-                yes = yes + 1
-            else:
-                no = no + 1
-
-        answer = ""
-        if yes >= no:
-            answer = str(100*yes/(yes+no)) + "% lidí si myslí, že ANO!"
+        questionText = person["name"] + " " + question["cz"]
+        answerText = ""
+        if average >= 0.5:
+            answerText = str(average*100) + "% lidí si myslí, že ANO!"
         else:
-            answer = str(100*no/(yes+no)) + "% lidí si myslí, že NE!"
+            answerText = str((1-average)*100) + "% lidí si myslí, že NE!"
         
-        cursor = conn.execute("SELECT cz FROM questions WHERE id = {0}".format(questionID))
-        row = cursor.fetchone()
-
-        question = person["name"] + " " + row[0]
-
-        self.render("sedma/zajimavost.html", question=question, answer=answer, subtitle="Sedmá třída: Zajímavost")
+        self.render("sedma/zajimavost.html", question=questionText, answer=answerText, subtitle="Sedmá třída: Zajímavost")
 
 def getBigFive(personID):
     questions = database.GetAllTestQuestions("bigfive")
