@@ -197,3 +197,13 @@ class WebSocket(tornado.websocket.WebSocketHandler):
 
             json = tornado.escape.json_encode(game)
             client.write_message(json)
+
+def GetKoronaResults(personID: int) -> list:
+    """
+    Gets results for all questions for corona questionaire. Returns a list of questions (dicts). 
+    """
+    questions = database.GetAllTestQuestions("korona")
+    for question in questions:
+        question["rating"] = database.GetAnswerAverage(personID, question["id"])
+
+    return questions

@@ -79,10 +79,10 @@ class Zajimavost(general.GeneralHandler):
         self.render("sedma/zajimavost.html", question=question, answer=answer, subtitle="Sedmá třída: Zajímavost")
 
 def getBigFive(personID):
-    IDs = database.GetAllTestQuestionsIDs("bigfive")
+    questions = database.GetAllTestQuestions("bigfive")
     rs = []
-    for questionID in IDs:
-        rating = database.GetAnswerAverage(personID, questionID)
+    for question in questions:
+        rating = database.GetAnswerAverage(personID, question["id"])
         rating = bigFiveQoef(rating)
         rs.append(rating)
 
@@ -98,10 +98,10 @@ def getBigFive(personID):
     return bigFive
 
 def getSCL90(personID):
-    IDs = database.GetAllTestQuestionsIDs("scl90")
+    questions = database.GetAllTestQuestions("scl90")
     rs = []
-    for questionID in IDs:
-        rating = database.GetAnswerAverage(personID, questionID)
+    for question in questions:
+        rating = database.GetAnswerAverage(personID, question["id"])
         rating = scl90Qoef(rating)
         rs.append(rating)
 

@@ -1,5 +1,8 @@
 import sqlite3, random
 
+
+### TABLE: persons
+
 def parsePersonRow(row: list) -> dict:
     """
     Parses a list of all rows in persons table into a named dictionary.
@@ -39,20 +42,6 @@ def parsePersonRow(row: list) -> dict:
     }
     return profile
 
-def parseQuestionRow(row: list) -> dict:
-    """
-    Parses a list of all rows in question table into a named dictionary.
-    """
-    question = {
-        "id": row[0],
-        "eng-pre": row[1],
-        "eng": row[2],
-        "cz-pre": row[3],
-        "cz": row[4],
-        "test": row[5],
-    }
-    return question
-
 def GetPerson(personID: int) -> dict:
     """
     Gets person of selected ID from the database. Returns a dict containing all data available for the person.
@@ -77,6 +66,23 @@ def GetRandomPersons(count: int) -> list:
     random.shuffle(profiles)
     return profiles
 
+
+### TABLE: questions
+
+def parseQuestionRow(row: list) -> dict:
+    """
+    Parses a list of all rows in question table into a named dictionary.
+    """
+    question = {
+        "id": row[0],
+        "eng-pre": row[1],
+        "eng": row[2],
+        "cz-pre": row[3],
+        "cz": row[4],
+        "test": row[5],
+    }
+    return question
+
 def GetRandomQuestion(test: str) -> dict:
     """
     Gets random question from database for selected test.
@@ -87,19 +93,23 @@ def GetRandomQuestion(test: str) -> dict:
 
     return parseQuestionRow(row)
 
-def GetAllTestQuestionsIDs(test: str) -> list:
+def GetAllTestQuestions(test: str) -> list:
     """
-    Gets list of all IDs of questions for selected type of the test.
+    Gets list of all questions for selected type of the test.
     """
     conn = sqlite3.connect('prod.db')
-    cursor = conn.execute("SELECT (id) FROM questions WHERE test = '{0}'".format(test))
-    IDs = cursor.fetchall()
+    cursor = conn.execute("SELECT * FROM questions WHERE test = '{0}'".format(test))
+    rows = cursor.fetchall()
 
-    testIDs = []
-    for ID in IDs:
-        testIDs.append(ID[0])
+    questions = []
+    for row in rows:
+        question = parseQuestionRow(row)
+        questions.append(question)
     
-    return testIDs
+    return questions
+
+
+### TABLE: answers
 
 def GetAnswerAverage(personID: int, questionID: int) -> float:
     """

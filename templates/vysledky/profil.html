@@ -38,6 +38,12 @@
     <img class="portrait" src="{{ profile['image'] }}">
     <div class="quote">{{ profile["quote"] }}</div>
 
+    <div>
+      {% for question in korona %}
+        <div>{{ question["cz"] }}: {{ question["rating"]*100 }}%</div>
+      {% end %}
+    </div>
+
     <canvas id="bigFiveGraph" class="graph" width="400px" height="400px"></canvas>
     <canvas id="scl90Graph" class="graph" width="800px" height="800px"></canvas> 
     <p class="disclaimer">*Vizualizace dat sesbíraných od návštěvníků této stránky. Nejedná se o výsledky osobnostního či psychologického testu vyplněného zobrazenou osobou. Nejde o tvrzení o duševním stavu zobrazené osoby. Nejde o její lékařskou diagnózu.</p>
