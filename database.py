@@ -48,8 +48,31 @@ def GetPerson(personID: int) -> dict:
     """
     conn = sqlite3.connect('prod.db')
     cursor = conn.execute("SELECT * FROM persons WHERE id = '{0}'".format(personID))
+    row = cursor.fetchone()
 
-    return parsePersonRow(cursor.fetchone())
+    if row == None:
+        return None
+    
+    return parsePersonRow(row)
+
+def GetExistingPerson(personID: int, step: int=1):
+    """
+    Gets existing person from database. Of person is not active, it tries person next to it - based on step length. 
+    """
+    while True:
+        person = GetPerson(personID)
+        if person == None:
+            # ugly: should get number of persons from DB
+            if personID < 1:
+                personID = 100
+            else:
+                personID = 1
+            continue
+
+        if person["active"] == 1:
+            return person
+
+        personID = personID + step
 
 def GetRandomPersons(count: int) -> list:
     """
@@ -65,7 +88,6 @@ def GetRandomPersons(count: int) -> list:
 
     random.shuffle(profiles)
     return profiles
-
 
 ### TABLE: questions
 
