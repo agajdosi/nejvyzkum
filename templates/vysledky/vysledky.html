@@ -1,0 +1,28 @@
+<!doctype html>
+
+<html lang="cz">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="/css/main.css">
+  <link rel="stylesheet" type="text/css" href="/css/vysledky/vysledky.css">
+  <link rel='stylesheet' href='//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack-subset.css'>
+
+  {% module Template("parts/tracking.html") %}
+  {% module Template("parts/meta.html",
+  subtitle=subtitle,
+  url=url,
+  image="http://myelin.org/wp-content/uploads/2017/08/image05.jpg",
+  description="Rozcestník k podrobným výsledkům nejlepšího z možných výzkumů. Vyhledejte jakoukoliv ze zkoumaných osob a zobrazte výsledky."
+  ) %}
+
+</head>
+
+<body>
+
+  Výsledky.
+
+  {% module Template("parts/footer.html") %}
+
+</body>
+
+</html>

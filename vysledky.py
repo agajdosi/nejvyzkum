@@ -1,6 +1,17 @@
 import random
 import general, database, sedma, korona
 
+
+class Vysledky(general.GeneralHandler):
+    def get(self):
+        if self.enforceSSL():
+            return
+
+        return self.render("vysledky/vysledky.html",
+            subtitle = "Výsledky výzkumu",
+            url = self.request.full_url(),
+        )
+
 class Profil(general.GeneralHandler):
     def get(self):
         if self.enforceSSL():
@@ -20,7 +31,7 @@ class Profil(general.GeneralHandler):
         scl90 = sedma.getSCL90(personID)
         koronaResults = korona.GetKoronaResults(personID)
 
-        return self.render( "vysledky/profil.html",
+        return self.render("vysledky/profil.html",
             subtitle="Profil",
             profile=person,
             bigFive=bigFive,

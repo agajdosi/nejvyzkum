@@ -17,6 +17,8 @@ def make_app():
     return tornado.web.Application([
         (r"/", Index),
         (r"/profil/?", vysledky.Profil),
+        (r"/vysledky/?", vysledky.Vysledky),
+
 
         (r"/sedma-trida/?", sedma.Index),
         (r"/sedma-trida/hrat/?", sedma.Main),
