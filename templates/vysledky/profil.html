@@ -76,7 +76,7 @@ var bigFiveChart = new Chart(bfg, {
     options: {
       title: {
         display: true,
-        text: 'Test osobnosti Big Five*',
+        text: '{{ profile["name"] }}: test osobnosti Big Five*',
         fontSize: 30,
       },
       legend: {
@@ -163,7 +163,7 @@ var sclChart = new Chart(scl, {
 		responsive: true,
 		title: {
 			display: true,
-			text: 'Psychometrika SCL90*',
+			text: '{{ profile["name"] }}: psychometrika SCL90*',
       fontSize: 30,
 		},
     legend:{
