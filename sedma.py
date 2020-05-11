@@ -134,13 +134,13 @@ def bigFiveQoef(rating):
     return rating
 
 def scl90Qoef(rating):
-    if rating < 0.3:
+    if rating <= 0.5:
         rating = 0
-    elif rating < 0.6:
+    elif rating < 0.7:
         rating = 1
     elif rating < 0.8:
         rating = 2
-    elif rating < 0.9:
+    elif rating < 0.95:
         rating = 3
     elif rating <= 1.0:
         rating = 4
