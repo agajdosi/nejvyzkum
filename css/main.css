@@ -14,17 +14,6 @@ h1 {
     margin: 100px;
 }
 
-footer {
-    display: flex;
-    justify-content: space-between;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 10px 20px;
-    background-color: white;
-}
-
 a {
     color: inherit;
 }
