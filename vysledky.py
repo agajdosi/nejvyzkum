@@ -19,4 +19,11 @@ class Profil(general.GeneralHandler):
         scl90 = sedma.getSCL90(personID)
         koronaResults = korona.GetKoronaResults(personID)
 
-        return self.render("vysledky/profil.html", subtitle="Profil", profile=person, bigFive=bigFive, scl90=scl90, korona=koronaResults)
+        return self.render( "vysledky/profil.html",
+            subtitle="Profil",
+            profile=person,
+            bigFive=bigFive,
+            scl90=scl90,
+            korona=koronaResults,
+            url=self.request.full_url(),
+        )

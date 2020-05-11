@@ -2,24 +2,19 @@
 
 <html lang="cz">
 <head>
-  {% module Template("parts/tracking.html") %}
-
   <meta charset="utf-8">
-
-  <title>Nejvyzkum.cz - {{ subtitle }}</title>
-  <meta name="description" content="Nejvyzkum.cz - {{ subtitle }}">
-  <meta name="author" content="Andreas Gajdosik">
-  <link href="/favicon.ico" rel="icon" type="image/x-icon"/>
-
   <link rel="stylesheet" type="text/css" href="/css/main.css">
   <link rel="stylesheet" type="text/css" href="/css/sedma/zajimavost.css">
   <link rel='stylesheet' href='//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack-subset.css'>
 
-  <meta property="og:title" content="Nejvyzkum.cz - {{ subtitle }}">
-  <meta property="og:description" content="Náhodná zajímavost z duševního světa nejbohatších. Tomu neuvěříte.">
-  <meta property="og:image" content="/favicon.ico">
-  <meta property="og:url" content="https://www.nejvyzkum.cz/sedma-trida/zajimavost">
-  <meta name="twitter:card" content="summary_large_image">
+  {% module Template("parts/tracking.html") %}
+  {% module Template("parts/meta.html",
+    subtitle=subtitle,
+    url="https://www.nejvyzkum.cz/sedma-trida/zajimavost",
+    image="http://myelin.org/wp-content/uploads/2017/08/image05.jpg",
+    description="Náhodná zajímavost ze světa nejbohatších. Co si o nich myslí ostatní? Tomu neuvěříte!"
+  ) %}
+
 </head>
 
 <body>

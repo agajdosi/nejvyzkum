@@ -4,11 +4,14 @@ import sedma, korona, vysledky, general, settings
 
 class Index(general.GeneralHandler):
     def get(self):
-        self.render("index.html", subtitle="Nejlepší z možných výzkumů")
+        self.render("index.html",
+            subtitle="Nejlepší z možných výzkumů",
+            url=self.request.full_url(),
+        )
 
 class NotFound(general.GeneralHandler):
     def get(self):
-        self.render("404.html")
+        self.render("404.html", url=self.request.full_url())
 
 def make_app():
     return tornado.web.Application([

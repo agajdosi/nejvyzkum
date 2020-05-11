@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="cz">
   <head>
-    {% module Template("parts/tracking.html") %}
-
     <meta charset="utf-8">
-    <title>title</title>
-    
     <link rel="stylesheet" type="text/css" href="/css/main.css">
     <link rel="stylesheet" type="text/css" href="/css/korona/index.css">
 
-    <script src="script.js"></script>
+    {% module Template("parts/tracking.html") %}
+    {% module Template("parts/meta.html",
+    subtitle="Neobvyklí podezřelí (online hra)",
+    url=url,
+    image="http://myelin.org/wp-content/uploads/2017/08/image05.jpg",
+    description="Podaří se Vám a Vašemu spoluhráči vypátrat, který z českých miliardářů je zločinec? Dokážete odhadnout úsudky druhého a dojít zdárného konce? Zjistěte to teď hned na nejvyzkum.cz!"
+    ) %}
+
   </head>
   <body>
 

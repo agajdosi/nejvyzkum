@@ -18,7 +18,11 @@ class Index(general.GeneralHandler):
         question = random.choice(questions)
         question = question.replace("*", person["name"])
 
-        return self.render("sedma/index.html", subtitle="Nejlepší z možných výzkumů!", question=question)
+        return self.render("sedma/index.html",
+            subtitle="Nejlepší z možných výzkumů!",
+            question=question,
+            url=self.request.full_url(),
+        )
 
 class Main(general.GeneralHandler):
     def get(self):
@@ -32,7 +36,13 @@ class Main(general.GeneralHandler):
         question = cursor.fetchone()
 
         conn.close()
-        return self.render("sedma/hrat.html", subtitle="Sedmá třída: Dotazník", first=duo[0], second=duo[1], question=question)
+        return self.render("sedma/hrat.html",
+            subtitle="Sedmá třída: Dotazník",
+            first=duo[0],
+            second=duo[1],
+            question=question,
+            url=self.request.full_url(),
+        )
 
     def post(self):
         question = int(self.get_argument("question"))
@@ -61,7 +71,12 @@ class Zajimavost(general.GeneralHandler):
         else:
             answerText = str((1-average)*100) + "% lidí si myslí, že NE!"
         
-        self.render("sedma/zajimavost.html", question=questionText, answer=answerText, subtitle="Sedmá třída: Zajímavost")
+        self.render("sedma/zajimavost.html",
+            question=questionText,
+            answer=answerText,
+            subtitle="Sedmá třída: Zajímavost",
+            url=self.request.full_url(),
+        )
 
 def getBigFive(personID):
     questions = database.GetAllTestQuestions("bigfive")

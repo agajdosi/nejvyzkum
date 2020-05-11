@@ -1,25 +1,20 @@
 <!doctype html>
 
 <html lang="cz">
-<head>
-  {% module Template("parts/tracking.html") %}
-  
+<head> 
   <meta charset="utf-8">
-
-  <title>Nejvyzkum.cz - {{ subtitle }}</title>
-  <meta name="description" content="Nejvyzkum.cz - {{ subtitle }}">
-  <meta name="author" content="Andreas Gajdosik">
-  <link href="/favicon.ico" rel="icon" type="image/x-icon"/>
-
   <link rel="stylesheet" type="text/css" href="/css/main.css">
   <link rel="stylesheet" type="text/css" href="/css/index.css">
   <link rel='stylesheet' href='//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack-subset.css'>
 
-  <meta property="og:title" content="Nejvyzkum.cz - {{ subtitle }}">
-  <meta property="og:description" content="Nahlížíme do duše nejbohatších. Zkrátka ten nejlepší z možných výzkumů!">
-  <meta property="og:image" content="http://myelin.org/wp-content/uploads/2017/08/image05.jpg">
-  <meta property="og:url" content="https://www.nejvyzkum.cz">
-  <meta name="twitter:card" content="summary_large_image">
+  {% module Template("parts/tracking.html") %}
+  {% module Template("parts/meta.html",
+    subtitle=subtitle,
+    url=url,
+    image="https://nejvyzkum/favicon.ico",
+    description="Nahlížíme do duše nejbohatších. Zkrátka ten nejlepší z možných výzkumů!"
+  ) %}
+
 </head>
 
 <body>

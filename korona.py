@@ -4,7 +4,7 @@ import general, database
 
 class Index(general.GeneralHandler):
     def get(self):
-        self.render("korona/index.html")
+        self.render("korona/index.html", url=self.request.full_url())
     def post(self):
         self.redirect("/korona/hra/" + secrets.token_hex(16))
 
@@ -13,7 +13,10 @@ class Hra(general.GeneralHandler):
         if self.get_cookie("nejvyzkum-player") == None:
             self.set_cookie("nejvyzkum-player", secrets.token_hex(32))
         
-        self.render("korona/hra.html", token=token)
+        self.render("korona/hra.html",
+            token=token,
+            url=self.request.full_url(),
+        )
 
 class WebSocket(tornado.websocket.WebSocketHandler):
     games = {}
