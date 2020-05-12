@@ -34,14 +34,26 @@
     </div>
 
     <div class="main">
-      <div id="role"></div>
-      <div id="onmove"></div>
-      <div id="question"></div>
-      <div id="answer"></div>
-      <div id="witnessUI">
-        <button id="yes" onclick="witnessAnswer(true)">ANO</button>
-        <button id="no" onclick="witnessAnswer(false)">NE</button>
+
+      <div class="roles">
+        <div id="role"></div>
+        <div id="onmove"></div>
       </div>
+
+      <div id="question"></div>
+      
+      <div class="answerUI">
+        <div></div>
+        <div id="witnessUI">
+            <button id="yes" class="answerButton" onclick="witnessAnswer(true)">ANO</button>
+            <button id="no" class="answerButton" onclick="witnessAnswer(false)">NE</button>
+        </div>
+        
+        <div>
+        <div id="answer"></div>
+        </div>
+      </div>
+
       <div id="suspects">
         {% for x in range(16) %}
           <div id="{{x}}" class="suspect" onclick="suspectClick({{x}})">

@@ -19,12 +19,51 @@
     width: 100%;
 }
 
+.roles {
+    display: flex;
+    justify-content: space-between;
+}
+
+.answerUI {
+    display: flex;
+    justify-content: space-between;
+    font-size: 2em;
+    align-items: flex-end;
+    margin: 30px 0;
+}
+
 #witnessUI {
     display: none;
 }
 
 #detectiveUI {
     display: none;
+}
+
+#question {
+    text-align: center;
+    width: 100%;
+    font-size: 2em;
+    margin: 30px 0;
+}
+
+.answerButton {
+    border: none;
+    text-align: center;
+    text-decoration: underline;
+    display: inline-block;
+    font-size: 1em;
+    font-family: hack;
+    color: inherit;
+    margin: 0 20px;
+    padding: 0;
+    cursor: pointer;
+    background-color: inherit;
+}
+
+.answerButton:disabled{
+    display: none;
+    cursor: wait;
 }
 
 .eliminated {
