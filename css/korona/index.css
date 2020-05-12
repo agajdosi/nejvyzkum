@@ -1,0 +1,11 @@
+.menu{
+    margin: 150px 0px 0px 0px;
+}
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+    margin: 20px 0px;
+}

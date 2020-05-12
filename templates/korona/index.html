@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="/css/main.css">
     <link rel="stylesheet" type="text/css" href="/css/korona/index.css">
+    <link rel='stylesheet' href='//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack-subset.css'>
 
     {% module Template("parts/tracking.html") %}
     {% module Template("parts/meta.html",
@@ -15,14 +16,29 @@
 
   </head>
   <body>
+    <div class="main">
 
-    KORONA-INDEX
+      <h1 class="textcenter">
+        Korona speciál - online hra
+      </h1>
+    
+      <p class="textcenter">
+        Zahrajte si upravenou verzi společenské hry Neobvyklí podezřelí.
+        Hrát můžete online s vašimi přáteli.
+        Stačí vytvořit novou hru a poslat vašemu spoluhráči odkaz.
+        Hrajte hned teď!
+      </p>
 
-    <form action="" method="post">
-      <input type="submit" value="Zalozit hru" class="submit"/>
-    </form>
+      <div class="menu">
+        <div class="buttons">
+          <form action="" method="post">
+            <input type="submit" value="Založit hru!" class="button active"/>
+          </form>
+        </div>
+      </div>
 
+
+    </div>
     {% module Template("parts/footer.html") %}
-
   </body>
 </html>
