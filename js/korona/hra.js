@@ -91,7 +91,7 @@ function renderGameWon(){
 function handleWitness(){
     document.getElementById("role").innerText = "You are a Witness!";
     document.getElementById("witnessUI").style.display = "block";
-    document.getElementById("detectiveUI").style.display = "none";
+    //document.getElementById("detectiveUI").style.display = "none";
 
     if (game["turn"] == "witness"){
         document.getElementById("yes").disabled = false;
@@ -107,14 +107,14 @@ function handleWitness(){
 
 function handleDetective(){
     document.getElementById("role").innerText = "You are a Detective!";
-    document.getElementById("detectiveUI").style.display = "block";
+    //document.getElementById("detectiveUI").style.display = "block";
     document.getElementById("witnessUI").style.display = "none";
 
     if (game["turn"] == "detective"){
-        document.getElementById("send").disabled = false;
+        //document.getElementById("send").disabled = false;
         document.getElementById("onmove").innerText = "Jste na rade!"
     } else {
-        document.getElementById("send").disabled = true;
+        //document.getElementById("send").disabled = true;
         document.getElementById("onmove").innerText = "Hraje svedek!"
     }
 }
