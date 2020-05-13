@@ -201,6 +201,11 @@ function getCookie(name) {
     return null;
 }
 
+function openHelp() {
+    document.getElementById("napovedaLayer").style.display = "block";
+    document.getElementById("link").innerText = document.location;
+}
+
 function closeHelp() {
     document.getElementById("napovedaLayer").style.display = "none";
 }

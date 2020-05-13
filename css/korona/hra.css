@@ -5,6 +5,11 @@
     min-height: 70vh;
 }
 
+#role{
+    text-decoration: underline;
+    cursor: help;
+}
+
 .suspect {
     flex-basis: 21%;
     font-size: 0.65em;
@@ -123,6 +128,7 @@
     width: 100vw;
     z-index: 10;
     background-color: rgba(0, 0, 0, 0.9);
+    display: none;
 }
 
 #napoveda{
@@ -161,4 +167,9 @@
 #napovedaClose{
     text-decoration: underline;
     cursor: pointer;
+}
+
+#link{
+    margin: 40px;
+    font-style: italic;
 }

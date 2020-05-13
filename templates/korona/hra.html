@@ -20,7 +20,7 @@
     </script>
 
 </head>
-  <body>
+  <body onload="openHelp()">
     {% module Template("parts/upper.html") %}
 
     <div id="game-lost" class="endGameWindow">
@@ -42,7 +42,7 @@
             Hra je určena pro 2 hráče.
             Jeden hraje v roli svědka, druhá v roli vyšetřovatele.
             Pošlete link vašemu spoluhráči nebo spoluhráčce, aby se mohl/a připojit:
-            <span id="link"></span>
+            <div id="link"></div>
           </div>
         </div>
 
@@ -82,7 +82,7 @@
     <div class="main">
 
       <div class="roles">
-        <div id="role"></div>
+        <div id="role" onclick="openHelp()"></div>
         <div id="onmove"></div>
       </div>
 
