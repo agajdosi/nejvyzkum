@@ -41,8 +41,8 @@
     text-align: center;
 }
 
-.infoKey{
-    text-decoration: underline;
+.infoValue{
+    font-style: italic;
 }
 
 .roles {
