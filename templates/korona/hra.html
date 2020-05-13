@@ -33,6 +33,52 @@
       <div onclick="restartGame()">play again</div>
     </div>
 
+    <div id="napovedaLayer">
+      <div id="napoveda">
+
+        <div id="napovedaVitejtePanel">
+          <div class="napovedah1">Vítejte ve hře!</div>
+          <div>
+            Hra je určena pro 2 hráče.
+            Jeden hraje v roli svědka, druhá v roli vyšetřovatele.
+            Pošlete link vašemu spoluhráči nebo spoluhráčce, aby se mohl/a připojit:
+            <span id="link"></span>
+          </div>
+        </div>
+
+        <p>
+        <div class="napovedah2">
+          Pravidla hry:
+        </div>
+        <div class="napovedaPravidlo">
+          1. Hru začíná svědek.
+          Ten vidí, kdo je pachatelem, a podle své úvahy odpovídá na náhodně vygenerovanou otázku.
+          Souhlasí pachatel s uzavřením hranic během pandemie? Nosí pachatel roušku poctivě?
+          Úkolem svědka je dobře odhadnout pachatele a odpovědět, jak se pachatel k otázce asi staví.
+        </div>
+        <div class="napovedaPravidlo">
+          2. Po zodpovězení otázky hraje vyšetřovatel.
+          Vyšetřovatel vidí otázku a odpověď svědka.
+          Úkolem vyšetřovatele je vyřadit jednu nevinnou osobu, která nevyhovuje svědkově odpovědi na položenou otázku.
+          Nosí pachatel roušku poctivě? NE? Pak je potřeba vyřadit jednoho podezřelého, který vypadá, že roušku poctivě nosí.
+        </div>
+        <div class="napovedaPravidlo">
+          3. Po vyřazení nevinné osoby hra pokračuje opět tahem svědka (1.), po němž následuje tah vyšetřovatele (2.) a tak dále pořád dokola, až do postupného vyloučení všech nevinných osob.  
+        </div>
+        </p>
+
+        <p>
+        <div>
+          <div class="napovedah2">Konec hry:</div>
+          <div>Hra končí prohrou, pokud vyšetřovatel namísto nevinné osoby vyloučí pachatele.</div>
+          <div>Hra končí výhrou, pokud vyšetřovatel postupně vyloučí všechny nevinné osoby a zůstane mu jako poslední pachatel.</div>
+        </div>
+        </p>
+
+        <div id="napovedaClose" onclick="closeHelp()">zavřít nápovědu</div>
+      </div>
+    </div>
+
     <div class="main">
 
       <div class="roles">

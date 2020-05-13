@@ -199,3 +199,7 @@ function getCookie(name) {
     }
     return null;
 }
+
+function closeHelp() {
+    document.getElementById("napovedaLayer").style.display = "none";
+}
