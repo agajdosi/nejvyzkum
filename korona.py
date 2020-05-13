@@ -189,7 +189,6 @@ class WebSocket(tornado.websocket.WebSocketHandler):
         self.games[self.token]["data"]["turn"] = "witness"
 
     def restartGame(self):
-        print("game going to be restarted")
         self.generateGameData()
         self.games[self.token]["data"]["detective"], self.games[self.token]["data"]["witness"] = self.games[self.token]["data"]["witness"], self.games[self.token]["data"]["detective"]
         self.updateAll()
