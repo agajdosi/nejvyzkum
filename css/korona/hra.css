@@ -173,3 +173,8 @@
     margin: 40px;
     font-style: italic;
 }
+
+.restart{
+    text-decoration: underline;
+    cursor: pointer;
+}
