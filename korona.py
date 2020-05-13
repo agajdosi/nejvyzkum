@@ -53,6 +53,11 @@ class WebSocket(tornado.websocket.WebSocketHandler):
                 self.restartGame()
             return
 
+        if self.games[self.token]["data"]["finished"] == "won":
+            if "pls-restart-game" in message:
+                self.restartGame()
+            return
+
         if message == "true" or message == "false":
             self.questionAnswered(message)
 
@@ -184,6 +189,7 @@ class WebSocket(tornado.websocket.WebSocketHandler):
         self.games[self.token]["data"]["turn"] = "witness"
 
     def restartGame(self):
+        print("game going to be restarted")
         self.generateGameData()
         self.games[self.token]["data"]["detective"], self.games[self.token]["data"]["witness"] = self.games[self.token]["data"]["witness"], self.games[self.token]["data"]["detective"]
         self.updateAll()

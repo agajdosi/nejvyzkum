@@ -133,7 +133,7 @@ function renderGameWon(){
     if (game["finished"] == "won"){
         document.getElementById("game-won").style.display = "block";
     } else {
-        document.getElementById("game-won").style.display = "won";
+        document.getElementById("game-won").style.display = "none";
     }
 }
 
@@ -187,6 +187,7 @@ function suspectClick(id) {
 
 function restartGame(){
     ws.send("pls-restart-game")
+    console.log("restart sent")
 }
 
 function getCookie(name) {
