@@ -145,11 +145,11 @@ function handleWitness(){
     if (game["turn"] == "witness"){
         document.getElementById("yes").disabled = false;
         document.getElementById("no").disabled = false;
-        document.getElementById("onmove").innerText = "Hrajete!"
+        document.getElementById("onmove").innerText = "Odpovězte na otázku!"
     } else {
         document.getElementById("yes").disabled = true;
         document.getElementById("no").disabled = true;
-        document.getElementById("onmove").innerText = "Hraje vyšetřovatel!"
+        document.getElementById("onmove").innerText = "Vyšetřovatel propouští..."
     }
 
 }
@@ -161,10 +161,10 @@ function handleDetective(){
 
     if (game["turn"] == "detective"){
         //document.getElementById("send").disabled = false;
-        document.getElementById("onmove").innerText = "Hrajete!"
+        document.getElementById("onmove").innerText = "Pusťte podezřelého, který nevyhovuje!"
     } else {
         //document.getElementById("send").disabled = true;
-        document.getElementById("onmove").innerText = "Hraje svědek!"
+        document.getElementById("onmove").innerText = "Svěděk odpovídá..."
     }
 }
 
