@@ -91,8 +91,6 @@ function renderSuspects() {
 
         document.getElementById(i).getElementsByClassName("infoKey")[0].innerText = caption;
         document.getElementById(i).getElementsByClassName("infoValue")[0].innerText = value;
-
-
     }
 
     for (var i = 0; i < game["eliminated"].length; i++) {
@@ -112,9 +110,8 @@ function renderQuestion() {
 
 function renderAnswer() {
     if (game["turn"] == "witness"){
-        document.getElementById("answer").style.display = "none";
-    } else {
-        document.getElementById("answer").style.display = "block";
+        document.getElementById("answer").innerText = "___"
+        return
     }
     
     if (game["answer"] == "true") {
