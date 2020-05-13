@@ -2,21 +2,41 @@
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    height: 90vh;
+    min-height: 70vh;
 }
 
 .suspect {
-    flex-basis: 25%;
-    height: 20%;
-    max-height: 200px;
-    background-size: contain;
-    background-repeat: no-repeat;
+    flex-basis: 21%;
+    font-size: 0.65em;
+    padding: 5px 5px;
     position: relative;
 }
 
+.criminal{
+    min-height: 15px;
+    text-align: center;
+    font-size: 1rem;
+}
+
 .portrait {
-    height: 100%;
-    width: 100%;
+    height: 140px;
+    width: 140px;
+    display: block;
+    margin: 0 auto;
+}
+
+.name{
+    font-size: 1rem;
+    margin: 10px 0 0 0;
+    text-align: center;
+}
+
+.info{
+    text-align: center;
+}
+
+.infoKey{
+    text-decoration: underline;
 }
 
 .roles {

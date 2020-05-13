@@ -136,7 +136,7 @@ class WebSocket(tornado.websocket.WebSocketHandler):
             return
         
         self.games[self.token]["data"]["turn"] = "witness"
-        self.games[self.token]["data"]["hints"] = generateHints()
+        self.games[self.token]["data"]["hints"] = random.randint(0,13)
         self.games[self.token]["data"]["question"] = database.GetRandomQuestion("korona")
 
     def checkRole(self):
@@ -177,7 +177,7 @@ class WebSocket(tornado.websocket.WebSocketHandler):
         self.games[self.token]["data"]["suspects"] = database.GetRandomPersons(16)
         self.games[self.token]["data"]["question"] = database.GetRandomQuestion("korona")
         self.games[self.token]["data"]["criminal"] = random.randint(0,15)
-        self.games[self.token]["data"]["hints"] = generateHints()
+        self.games[self.token]["data"]["hints"] = random.randint(0,13)
         self.games[self.token]["data"]["eliminated"] = []
         self.games[self.token]["data"]["answer"] = None
         self.games[self.token]["data"]["finished"] = "no"
@@ -212,13 +212,3 @@ def GetKoronaResults(personID: int) -> list:
         question["rating"] = database.GetAnswerAverage(personID, question["id"])
 
     return questions
-
-def generateHints():
-    a = random.randint(0,14)
-    while True:
-        b = random.randint(0,14)
-        c = random.randint(0,14)
-        if a != b and b != c and a!= c:
-            break
-
-    return (a, b, c)

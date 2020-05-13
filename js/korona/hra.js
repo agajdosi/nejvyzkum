@@ -38,7 +38,6 @@ function parseGameData(evt){
 }
 
 var fields = [
-    ["quote", "citát"],
     ["mainsource", "zdroj financí"],
     ["sidesource", "vedlejší zdroj financí"],
     ["birthday", "narození"],
@@ -56,7 +55,6 @@ var fields = [
 ];
 
 var fieldsEN = [
-    ["quote-en", "quote"],
     ["mainsource-en", "financial source"]
     ["sidesource-en", "side fin. sources"],
     ["birthday", "birthday"],
@@ -77,27 +75,24 @@ function renderSuspects() {
     for(var i = 0; i < game["suspects"].length; i++) {
         document.getElementById(i).getElementsByClassName("portrait")[0].src = game["suspects"][i]["image"];
         document.getElementById(i).getElementsByClassName("criminal")[0].innerText = null;
+        document.getElementById(i).style.backgroundColor = "unset";
         document.getElementById(i).getElementsByClassName("eliminated")[0].style.display = "none";
 
         document.getElementById(i).getElementsByClassName("name")[0].innerText = game["suspects"][i]["name"];
 
-        a = game["hints"][0]
-        key1 = fields[a][0]
-        caption1 = fields[a][1]
-        text1 = caption1 + ": " + game["suspects"][i][key1]
-        document.getElementById(i).getElementsByClassName("info1")[0].innerText = text1;
+        a = game["hints"]
+        key = fields[a][0]
+        caption = fields[a][1]
+        value = game["suspects"][i][key]
 
-        b = game["hints"][1]
-        key2 = fields[b][0]
-        caption2 = fields[b][1]
-        text2 = caption2 + ": " + game["suspects"][i][key2]
-        document.getElementById(i).getElementsByClassName("info2")[0].innerText = text2;
+        if (value == null){
+            value = "?"
+        };
 
-        c = game["hints"][2]
-        key3 = fields[c][0]
-        caption3 = fields[c][1]
-        text3 = caption3 + ": " + game["suspects"][i][key3]
-        document.getElementById(i).getElementsByClassName("info3")[0].innerText = text3;
+        document.getElementById(i).getElementsByClassName("infoKey")[0].innerText = caption;
+        document.getElementById(i).getElementsByClassName("infoValue")[0].innerText = value;
+
+
     }
 
     for (var i = 0; i < game["eliminated"].length; i++) {
@@ -106,7 +101,8 @@ function renderSuspects() {
     }
 
     if ("criminal" in game) {
-        document.getElementById(game["criminal"]).getElementsByClassName("criminal")[0].innerText = "PACHATEL/KA!";
+        document.getElementById(game["criminal"]).getElementsByClassName("criminal")[0].innerText = "PACHATEL/KA";
+        document.getElementById(game["criminal"]).style.backgroundColor = "rgb(255, 80, 80)";
     }
 }
 
@@ -145,33 +141,33 @@ function renderGameWon(){
 }
 
 function handleWitness(){
-    document.getElementById("role").innerText = "You are a Witness!";
+    document.getElementById("role").innerText = "Jste svědek";
     document.getElementById("witnessUI").style.display = "block";
     //document.getElementById("detectiveUI").style.display = "none";
 
     if (game["turn"] == "witness"){
         document.getElementById("yes").disabled = false;
         document.getElementById("no").disabled = false;
-        document.getElementById("onmove").innerText = "Jste na rade!"
+        document.getElementById("onmove").innerText = "Hrajete!"
     } else {
         document.getElementById("yes").disabled = true;
         document.getElementById("no").disabled = true;
-        document.getElementById("onmove").innerText = "Hraje policajt!"
+        document.getElementById("onmove").innerText = "Hraje vyšetřovatel!"
     }
 
 }
 
 function handleDetective(){
-    document.getElementById("role").innerText = "You are a Detective!";
+    document.getElementById("role").innerText = "Jste vyšetřovatel";
     //document.getElementById("detectiveUI").style.display = "block";
     document.getElementById("witnessUI").style.display = "none";
 
     if (game["turn"] == "detective"){
         //document.getElementById("send").disabled = false;
-        document.getElementById("onmove").innerText = "Jste na rade!"
+        document.getElementById("onmove").innerText = "Hrajete!"
     } else {
         //document.getElementById("send").disabled = true;
-        document.getElementById("onmove").innerText = "Hraje svedek!"
+        document.getElementById("onmove").innerText = "Hraje svědek!"
     }
 }
 

@@ -57,12 +57,13 @@
       <div id="suspects">
         {% for x in range(16) %}
           <div id="{{x}}" class="suspect" onclick="suspectClick({{x}})">
-            <img class="portrait" src="">
             <div class="criminal"></div>
+            <img class="portrait" src="">
             <div class="name"></div>
-            <div class="info1"></div>
-            <div class="info2"></div>
-            <div class="info3"></div>
+            <div class="info">
+              <span class="infoKey"></span>:
+              <span class="infoValue"></span>
+            </div>
             <div class=eliminated></div>
           </div>
         {% end %}
