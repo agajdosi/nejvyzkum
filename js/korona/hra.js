@@ -5,7 +5,13 @@ game = null
 
 function openWS(token){
     token = token
-    url = "ws://" + window.location.hostname + ":" + window.location.port + "/korona/ws/" + token
+
+    var WSprotocol = "ws:"
+    if (window.location.protocol == "https:") {
+        WSprotocol = "wss:"
+    };
+
+    url = WSprotocol + "//" + window.location.hostname + ":" + window.location.port + "/korona/ws/" + token
     ws = new WebSocket(url);
 
     ws.onmessage = function (evt) {
