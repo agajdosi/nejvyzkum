@@ -27,7 +27,7 @@
     <img class="portrait" src="{{ profile['image'] }}">
     <div class="quote">{{ profile["quote"] }}</div>
 
-    <div>
+    <div id="korona">
       {% for question in korona %}
         <div>{{ question["cz"] }}: {{ question["rating"]*100 }}%</div>
       {% end %}

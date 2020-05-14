@@ -29,6 +29,10 @@
     margin: 100px;
 }
 
+#korona{
+    display: none;
+}
+
 @media all and (max-width: 900px) {
     .portrait {
         width: 250px;
