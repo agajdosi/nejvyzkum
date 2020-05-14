@@ -213,20 +213,21 @@ class WebSocket(tornado.websocket.WebSocketHandler):
         detective = self.games[self.token]["data"]["detective"]
         witness = self.games[self.token]["data"]["witness"]
         
-        players = 0
-        for client in self.games[self.token]["clients"]:
-            if client.get_cookie("nejvyzkum-player") == detective:
-                players = players + 1
-            if client.get_cookie("nejvyzkum-player") == witness:
-                players = players + 1
-
-        if players >= 2:
-            self.games[self.token]["data"]["status"] = "running"
+        if detective == None or witness == None:
+            self.games[self.token]["data"]["status"] = "created"
             return
 
-        if players == 1:
-            if self.games[self.token]["data"]["status"] == "created":
-                return
+        detectivePlayer = False
+        witnessPlayer = False
+        for client in self.games[self.token]["clients"]:
+            if client.get_cookie("nejvyzkum-player") == detective:
+                detectivePlayer = True
+            if client.get_cookie("nejvyzkum-player") == witness:
+                witnessPlayer = True
+
+        if detectivePlayer and witnessPlayer:
+            self.games[self.token]["data"]["status"] = "running"
+        else:
             self.games[self.token]["data"]["status"] = "paused"
 
 def GetKoronaResults(personID: int) -> list:
