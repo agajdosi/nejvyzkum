@@ -43,6 +43,7 @@ function parseGameData(evt){
     renderSuspects();
     renderQuestion();
     renderAnswer();
+    renderGameStatus();
     renderGameOver();
     renderGameWon();
 }
@@ -113,6 +114,25 @@ function renderSuspects() {
         document.getElementById(game["criminal"]).style.backgroundColor = "rgb(255, 80, 80)";
         document.getElementById(game["criminal"]).getElementsByClassName("eliminated")[0].style.display = "none";
     }
+}
+
+function renderGameStatus(){
+    if (game["status"] == "created"){
+        document.getElementById("question").innerText = "Čekáme na spoluhráče...";
+        document.getElementById("witnessUI").style.display = "none";
+        document.getElementById("onmove").style.display = "none";
+        return
+    };
+    if (game["status"] == "paused"){
+        document.getElementById("question").innerText = "Spoluhráč se odpojil. Hra pozastavena.";
+        document.getElementById("witnessUI").style.display = "none";
+        document.getElementById("onmove").style.display = "none";
+        return
+    };
+    if (game["status"] == "running"){
+        document.getElementById("onmove").style.display = "block";
+        return
+    };
 }
 
 function renderQuestion() {

@@ -194,6 +194,7 @@ class WebSocket(tornado.websocket.WebSocketHandler):
         self.updateAll()
 
     def updateAll(self):
+        self.checkGameStatus()
         for client in self.games[self.token]["clients"]:
             if "lost" in self.games[self.token]["data"]["finished"]:
                 game = self.games[self.token]["data"]
@@ -207,6 +208,26 @@ class WebSocket(tornado.websocket.WebSocketHandler):
 
             json = tornado.escape.json_encode(game)
             client.write_message(json)
+
+    def checkGameStatus(self):
+        detective = self.games[self.token]["data"]["detective"]
+        witness = self.games[self.token]["data"]["witness"]
+        
+        players = 0
+        for client in self.games[self.token]["clients"]:
+            if client.get_cookie("nejvyzkum-player") == detective:
+                players = players + 1
+            if client.get_cookie("nejvyzkum-player") == witness:
+                players = players + 1
+
+        if players >= 2:
+            self.games[self.token]["data"]["status"] = "running"
+            return
+
+        if players == 1:
+            if self.games[self.token]["data"]["status"] == "created":
+                return
+            self.games[self.token]["data"]["status"] = "paused"
 
 def GetKoronaResults(personID: int) -> list:
     """
