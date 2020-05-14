@@ -24,13 +24,17 @@
     {% module Template("parts/upper.html") %}
 
     <div id="game-lost" class="endGameWindow">
-      <div>Prohráli jste!</div>
-      <div class="restart" onclick="restartGame()">zkusit znovu</div>
+      <div class="endGameContainer">
+        <div class="endGameH1">Byl vyloučen pachatel, prohráli jste!</div>
+        <div class="restart" onclick="restartGame()">zkusit znovu</div>
+      </div>
     </div>
 
     <div id="game-won" class="endGameWindow">
-      <div>Vyhráli jste!</div>
-      <div class="restart" onclick="restartGame()">hrát znova</div>
+      <div class="endGameContainer">
+        <div class="endGameH1">Pachatel odhalen, vyhráli jste!</div>
+        <div class="restart" onclick="restartGame()">hrát znova</div>
+      </div>
     </div>
 
     <div id="napovedaLayer">

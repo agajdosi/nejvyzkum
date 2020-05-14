@@ -101,6 +101,7 @@ function renderSuspects() {
     if ("criminal" in game) {
         document.getElementById(game["criminal"]).getElementsByClassName("criminal")[0].innerText = "PACHATEL/KA";
         document.getElementById(game["criminal"]).style.backgroundColor = "rgb(255, 80, 80)";
+        document.getElementById(game["criminal"]).getElementsByClassName("eliminated")[0].style.display = "none";
     }
 }
 
