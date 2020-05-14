@@ -23,6 +23,10 @@ function openWS(token){
 
         parseGameData(evt);
     };
+
+    ws.onclose = function(){
+        setTimeout(openWS(token), 1000);
+    };
 }
 
 function parseGameData(evt){
