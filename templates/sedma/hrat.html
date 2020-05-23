@@ -20,14 +20,14 @@
 <body>
 
   <div class="heading">
-    <span class="question">{{ question[3] }} {{ question[4] }}</span>
+    <span class="question">{{ question["cz-pre"] }} {{ question["cz"] }}</span>
     <span class="closer">kliknutím označte danou osobu</span>
   </div>
 
   <div class="persons">
     <div class="person">
       <form action="" method="post">
-        <input type="hidden" name="question" value="{{ question[0] }}">
+        <input type="hidden" name="question" value="{{ question['id'] }}">
         <input type="hidden" name="yes" value="{{ first['id'] }}">
         <input type="hidden" name="no" value="{{ second['id'] }}">
         <input type="submit" value="" class="submit" style="background-image: url('{{ first['image'] }}');"/>
@@ -36,7 +36,7 @@
 
     <div class="person">
       <form action="" method="post">
-        <input type="hidden" name="question" value="{{ question[0] }}">
+        <input type="hidden" name="question" value="{{ question['id'] }}">
         <input type="hidden" name="yes" value="{{ second['id'] }}">
         <input type="hidden" name="no" value="{{ first['id'] }}">
         <input type="submit" value="" class="submit" style="background-image: url('{{ second['image'] }}');"/>

@@ -105,12 +105,17 @@ def parseQuestionRow(row: list) -> dict:
     }
     return question
 
-def GetRandomQuestion(test: str) -> dict:
+def GetRandomQuestion(tests: list) -> dict:
     """
     Gets random question from database for selected test.
     """
+    tests = str(tests)
+    tests = tests.replace("[", "(")
+    tests = tests.replace("]", ")")
+
     conn = sqlite3.connect('prod.db')
-    cursor = conn.execute("SELECT * FROM questions WHERE id IN (SELECT id FROM questions WHERE test = '{0}' ORDER BY RANDOM() LIMIT 1)".format(test))
+    command = "SELECT * FROM questions WHERE id IN (SELECT id FROM questions WHERE test in {0} ORDER BY RANDOM() LIMIT 1)".format(tests)
+    cursor = conn.execute(command)
     row = cursor.fetchone()
 
     return parseQuestionRow(row)

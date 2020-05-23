@@ -30,12 +30,8 @@ class Main(general.GeneralHandler):
             return
         
         duo = database.GetRandomPersons(2)
+        question = database.GetRandomQuestion(["scl90", "bigfive"])
 
-        conn = sqlite3.connect('prod.db')
-        cursor = conn.execute("SELECT * FROM questions WHERE id IN (SELECT id FROM questions ORDER BY RANDOM() LIMIT 1)")
-        question = cursor.fetchone()
-
-        conn.close()
         return self.render("sedma/hrat.html",
             subtitle="Sedmá třída: Dotazník",
             first=duo[0],
@@ -61,7 +57,7 @@ class Main(general.GeneralHandler):
 class Zajimavost(general.GeneralHandler):
     def get(self):
         person = database.GetRandomPersons(1)[0]
-        question = database.GetRandomQuestion("scl90") # idealne by melo brat i vice testu
+        question = database.GetRandomQuestion(["scl90", "bigfive"])
         average = database.GetAnswerAverage(person["id"],question["id"])
 
         questionText = person["name"] + " " + question["cz"]

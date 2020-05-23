@@ -142,7 +142,7 @@ class WebSocket(tornado.websocket.WebSocketHandler):
         
         self.games[self.token]["data"]["turn"] = "witness"
         self.games[self.token]["data"]["hints"] = random.randint(0,13)
-        self.games[self.token]["data"]["question"] = database.GetRandomQuestion("korona")
+        self.games[self.token]["data"]["question"] = database.GetRandomQuestion(["korona"])
 
     def checkRole(self):
         cookie = self.get_cookie("nejvyzkum-player")
@@ -180,7 +180,7 @@ class WebSocket(tornado.websocket.WebSocketHandler):
 
     def generateGameData(self):
         self.games[self.token]["data"]["suspects"] = database.GetRandomPersons(16)
-        self.games[self.token]["data"]["question"] = database.GetRandomQuestion("korona")
+        self.games[self.token]["data"]["question"] = database.GetRandomQuestion(["korona"])
         self.games[self.token]["data"]["criminal"] = random.randint(0,15)
         self.games[self.token]["data"]["hints"] = random.randint(0,13)
         self.games[self.token]["data"]["eliminated"] = []
