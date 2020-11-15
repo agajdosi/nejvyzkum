@@ -20,7 +20,33 @@
 <body>
   {% module Template("parts/upper.html") %}
   
-  Výsledky.
+  <div class="main">
+    <h1>
+      Výsledky
+    </h1>
+
+    <form>
+      <select id="lists" name="list" onchange='form.submit()'>
+        {% for lst in lists %}
+          {% if selectedList == lst['code'] %}
+            <option selected value="{{ lst['code'] }}">{{ lst['name'] }}</option>
+          {% else %}
+            <option value="{{ lst['code'] }}">{{ lst['name'] }}</option>
+          {% end %}
+        {% end %}
+      </select>
+    </form>
+
+    {% for person in persons %}
+    <div>
+      {% if person['active']==1 %}
+        {{person['rank']}}. <a href="/profil?id={{ person['id']}}">{{ person['name']}}</a>
+      {% else %}
+        {{person['rank']}}. {{ person['name']}}
+      {% end %}
+    </div>
+    {% end %}
+  </div>
 
   {% module Template("parts/footer.html") %}
 

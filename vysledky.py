@@ -7,8 +7,15 @@ class Vysledky(general.GeneralHandler):
         if self.enforceSSL():
             return
 
+        lists = database.GetAllLists()
+        lst = self.get_argument("list", default="F19")
+        persons = database.GetAllPersonsInList(lst)
+
         return self.render("vysledky/vysledky.html",
             subtitle = "Výsledky výzkumu",
+            persons = persons,
+            selectedList = lst,
+            lists = lists,
             url = self.request.full_url(),
         )
 

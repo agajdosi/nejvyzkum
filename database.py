@@ -2,7 +2,6 @@ import sqlite3, random
 
 
 ### TABLE: persons
-
 def parsePersonRow(row: list) -> dict:
     """
     Parses a list of all rows in persons table into a named dictionary.
@@ -40,6 +39,7 @@ def parsePersonRow(row: list) -> dict:
         "wealth": row[29],
         "wealth-en": row[30],
     }
+
     return profile
 
 def GetPerson(personID: int) -> dict:
@@ -89,8 +89,56 @@ def GetRandomPersons(count: int) -> list:
     random.shuffle(profiles)
     return profiles
 
-### TABLE: questions
 
+### TABLE: lists
+# name, shortcode, active
+def parseListRow(row: list) -> dict:
+    '''
+    Parses list row into a dictionary.
+    '''
+    lst = {
+        "code": row[0],
+        "name": row[1],
+        "name-en": row[2],
+        "active": row[3]
+    }
+
+    return lst
+
+def GetAllLists():
+    '''
+    Gets all lists available in the database.
+    '''
+    conn = sqlite3.connect('prod.db')
+    cursor = conn.execute('SELECT * FROM lists WHERE active = 1')
+    rows = cursor.fetchall()
+    lists = []
+    for row in rows:
+        lists.append(parseListRow(row))
+
+    return lists
+
+
+### TABLE: rankings
+# person, list, rank
+def GetAllPersonsInList(listCode: str):
+    '''
+    Gets all persons which are part of the selected list.
+    '''
+    conn = sqlite3.connect('prod.db')
+    cursor = conn.execute('SELECT persons.*, rankings.rank FROM persons LEFT JOIN rankings ON persons.id = rankings.person WHERE rankings.list = "{0}"'.format(listCode))
+    rows = cursor.fetchall()
+
+    persons = []
+    for row in rows:
+        person = parsePersonRow(row)
+        person["rank"] = row[-1]
+        persons.append(person)
+
+    return persons
+
+
+### TABLE: questions
 def parseQuestionRow(row: list) -> dict:
     """
     Parses a list of all rows in question table into a named dictionary.
@@ -137,7 +185,6 @@ def GetAllTestQuestions(test: str) -> list:
 
 
 ### TABLE: answers
-
 def GetAnswerAverage(personID: int, questionID: int) -> float:
     """
     Gets average answer for selected person and question. Returned value is between 0 (100% NO) and 1.0 (100% YES).
