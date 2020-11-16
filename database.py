@@ -57,7 +57,7 @@ def GetPerson(personID: int) -> dict:
 
 def GetExistingPerson(personID: int, step: int=1):
     """
-    Gets existing person from database. Of person is not active, it tries person next to it - based on step length. 
+    Gets existing person from database. If person is not active, it tries person next to it - based on step length. 
     """
     while True:
         person = GetPerson(personID)
