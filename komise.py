@@ -18,7 +18,7 @@ class Komise(general.GeneralHandler):
         image = "https://cdn.xsd.cz/original/8180c83e7c94318c9a77555098e03281.jpg",
     )
 
-  def fake():
+  def fake(self):
     return self.render("komise/komise.html",
       headers=self.request.headers,
       text = "Šok! Nahé fotky předsedkyně TOP09 Markéty Pekarové Adamové unikly na veřejnost! Koukněte se zde.",
