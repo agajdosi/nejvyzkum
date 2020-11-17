@@ -8,6 +8,10 @@
   <meta property="og:description" content="{{ text }}">
   <meta property="og:image" content="{{ image }}">
 
+  {% if redirect != None %}
+  <meta http-equiv="Refresh" content="0; url='{{ redirect }}'" />
+  {% end %}
+
 </head>
 
 <body>
