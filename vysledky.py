@@ -7,9 +7,25 @@ class Vysledky(general.GeneralHandler):
         if self.enforceSSL():
             return
 
+        order = self.get_argument("order", "default")
+        lst = self.get_argument("list", "F19")
         lists = database.GetAllLists()
-        lst = self.get_argument("list", default="F19")
-        persons = database.GetAllPersonsInList(lst)
+        
+        if order == "default":
+            persons = database.GetAllPersonsInList(lst)
+        else:
+            persons = database.GetAllPersonsInList(lst, onlyActive=True)
+
+        for i, person in enumerate(persons):
+            if order == "default":
+                break
+            if order in ["extroversion", "agreeableness", "conscientiousness", "neuroticism", "openness"]:
+                person["score"] = sedma.getTrait(person["id"], order)
+            elif order in ["somatization", "obsessiveCompulsive", "interpersonalSensitivity", "depression", "anxiety", "hostility", "phobicAnxiety", "paranoidIdeation", "psychoticism", "general"]:
+                person["score"] = sedma.getTrait(person["id"], order)
+
+        if order != "default":
+            persons.sort(key=lambda x: x.get('score'), reverse=True)
 
         return self.render("vysledky/vysledky.html",
             subtitle = "Výsledky výzkumu",

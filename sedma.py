@@ -83,15 +83,88 @@ def getBigFive(personID):
         rs.append(rating)
 
     bigFive = {}
-    bigFive["extroversion"] = 20 + rs[0] - rs[5] + rs[10] - rs[15] + rs[20] - rs[25] + rs[30] - rs[35] + rs[40] - rs[45]
-    bigFive["agreeableness"] = 14 - rs[1] + rs[6] - rs[11] + rs[16] - rs[21] + rs[26] - rs[31] + rs[36] + rs[41] + rs[46]
+    bigFive["extroversion"]      = 20 + rs[0] - rs[5] + rs[10] - rs[15] + rs[20] - rs[25] + rs[30] - rs[35] + rs[40] - rs[45]
+    bigFive["agreeableness"]     = 14 - rs[1] + rs[6] - rs[11] + rs[16] - rs[21] + rs[26] - rs[31] + rs[36] + rs[41] + rs[46]
     bigFive["conscientiousness"] = 14 + rs[2] - rs[7] + rs[12] - rs[17] + rs[22] - rs[27] + rs[32] - rs[37] + rs[42] + rs[47]
-    bigFive["neuroticism"] = 38 - rs[3] + rs[8] - rs[13] + rs[18] - rs[23] - rs[28] - rs[33] - rs[38] - rs[43] - rs[48]
-    bigFive["openness"] =  8 + rs[4] - rs[9] + rs[14] - rs[19] + rs[24] - rs[29] + rs[34] + rs[39] + rs[44] + rs[49]
-
+    bigFive["neuroticism"]       = 38 - rs[3] + rs[8] - rs[13] + rs[18] - rs[23] - rs[28] - rs[33] - rs[38] - rs[43] - rs[48]
+    bigFive["openness"]          =  8 + rs[4] - rs[9] + rs[14] - rs[19] + rs[24] - rs[29] + rs[34] + rs[39] + rs[44] + rs[49]
     bigFive["average"] = (bigFive["extroversion"] + bigFive["agreeableness"] + bigFive["conscientiousness"] + bigFive["neuroticism"] + bigFive["openness"]) / 5
 
     return bigFive
+
+def getTrait(personID, trait):
+    ### Default formula and coef for SCL90
+    formula = lambda ls: sum(ls) / len(ls)
+    coef = scl90Qoef
+
+    ### BigFive
+    if trait == "extroversion":
+        questions = [1, 6, 11, 16, 21, 26, 31, 36, 41, 46]
+        formula = lambda ls: 20 + rs[0] - rs[1] + rs[2] - rs[3] + rs[4] - rs[5] + rs[6] - rs[7] + rs[8] - rs[9]
+        coef = bigFiveQoef
+
+    elif trait == "agreeableness":
+        questions = [2, 7, 12, 17, 22, 27, 32, 37, 42, 47]
+        formula = lambda ls: 14 - rs[0] + rs[1] - rs[2] + rs[3] - rs[4] + rs[5] - rs[6] + rs[7] + rs[8] + rs[9]
+        coef = bigFiveQoef
+
+    elif trait == "conscientiousness":
+        questions = [3, 8, 13, 18, 23, 28, 33, 38, 43, 48]
+        formula = lambda ls: 14 + rs[0] - rs[1] + rs[2] - rs[3] + rs[4] - rs[5] + rs[6] - rs[7] + rs[8] + rs[9]
+        coef = bigFiveQoef
+
+    elif trait == "neuroticism":
+        questions = [4, 9, 14, 19, 24, 29, 34, 39, 44, 49]
+        formula = lambda ls: 38 - rs[0] + rs[1] - rs[2] + rs[3] - rs[4] - rs[5] - rs[6] - rs[7] - rs[8] - rs[9]
+        coef = bigFiveQoef
+
+    elif trait == "openness":
+        questions = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]
+        formula = lambda ls: 8 + rs[0] - rs[1] + rs[2] - rs[3] + rs[4] - rs[5] + rs[6] + rs[7] + rs[8] + rs[9]
+        coef = bigFiveQoef
+
+    ### SCL90
+    elif trait == "somatization":
+        questions = [51, 54, 62, 77, 90, 92, 98, 99, 102, 103, 106, 108]
+    
+    elif trait == "obsessiveCompulsive":
+        questions = [53, 59, 60, 78, 88, 95, 96, 101, 105, 115]
+    
+    elif trait == "interpersonalSensitivity":
+        questions = [56, 71, 84, 86, 87, 91, 111, 119, 123]
+    
+    elif trait == "depression":
+        questions = [55, 64, 65, 70, 72, 76, 79, 80, 81, 82, 104, 121, 129]
+    
+    elif trait == "anxiety":
+        questions = [52, 57, 73, 83, 89, 107, 122, 128, 130, 136]
+    
+    elif trait == "hostility":
+        questions = [61, 74, 113, 117, 124, 131]
+    
+    elif trait == "phobicAnxiety":
+        questions = [63, 75, 97, 100, 120, 125, 132]
+    
+    elif trait == "paranoidIdeation":
+        questions = [58, 68, 93, 118, 126, 133]
+    
+    elif trait == "psychoticism":
+        questions = [57, 66, 85, 112, 127, 134, 135, 137, 138, 140]
+    
+    elif trait == "general":
+        return getSCL90(personID)["general"]
+    
+    else:
+        print("B5 trait not known:", trait)
+        return -10
+
+    rs = []
+    for question in questions:
+        rating = database.GetAnswerAverage(personID, question)
+        rating = coef(rating)
+        rs.append(rating)
+
+    return formula(rs)
 
 def getSCL90(personID):
     questions = database.GetAllTestQuestions("scl90")

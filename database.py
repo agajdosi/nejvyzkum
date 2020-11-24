@@ -1,4 +1,4 @@
-import sqlite3, random
+import sqlite3, random, collections
 
 
 ### TABLE: persons
@@ -121,12 +121,16 @@ def GetAllLists():
 
 ### TABLE: rankings
 # person, list, rank
-def GetAllPersonsInList(listCode: str):
+def GetAllPersonsInList(listCode: str, onlyActive=False):
     '''
     Gets all persons which are part of the selected list.
     '''
     conn = sqlite3.connect('prod.db')
-    cursor = conn.execute('SELECT persons.*, rankings.rank FROM persons LEFT JOIN rankings ON persons.id = rankings.person WHERE rankings.list = "{0}"'.format(listCode))
+    if onlyActive == True:
+        cursor = conn.execute('SELECT persons.*, rankings.rank FROM persons LEFT JOIN rankings ON persons.id = rankings.person WHERE rankings.list = "{0}" AND persons.active = 1'.format(listCode))
+    else:
+        cursor = conn.execute('SELECT persons.*, rankings.rank FROM persons LEFT JOIN rankings ON persons.id = rankings.person WHERE rankings.list = "{0}"'.format(listCode))
+
     rows = cursor.fetchall()
 
     persons = []
@@ -203,6 +207,21 @@ def GetAnswerAverage(personID: int, questionID: int) -> float:
     rating = (rating + 1) / 2.0
 
     return rating
+
+def GetAllAnswerAverages(questionID: int) -> dict:
+    conn = sqlite3.connect('prod.db')
+    cursor = conn.execute("SELECT DISTINCT person FROM answers WHERE question = {0}".format(str(questionID)))
+    rows = cursor.fetchall()
+
+    results = []
+    for row in rows:
+        score = GetAnswerAverage(row[0], questionID)
+        results.append((row[0], score))
+
+    results = sorted(results, key=lambda score: score[1])
+
+    print(results)
+    return results
 
 def InsertAnswer(question: int, answer: float, who: int, versus: int) -> None:
     """

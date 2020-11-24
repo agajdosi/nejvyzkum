@@ -35,14 +35,37 @@
           {% end %}
         {% end %}
       </select>
+
+      <select id="orderBy" name="order" onchange='form.submit()'>
+        <option disabled>── Big Five: osobnostní rysy ────────────</option>
+        <option selected value="extroversion">Extroverze</option>
+        <option selected value="agreeableness">Přívětivost</option>
+        <option selected value="conscientiousness">Svědomitost</option>
+        <option selected value="neuroticism">Neurotismus</option>
+        <option selected value="openness">Otevřenost</option>
+        <option disabled>── SCL90: sklony k psychickým poruchám ──</option>
+        <option selected value="somatization">Somatizace</option>
+        <option selected value="obsessiveCompulsive">Obsese-Kompulze</option>
+        <option selected value="interpersonalSensitivity">Hypersenzitivita</option>
+        <option selected value="depression">Deprese</option>
+        <option selected value="anxiety">Anxiozita</option>
+        <option selected value="hostility">Hostilita</option>
+        <option selected value="phobicAnxiety">Fóbie</option>
+        <option selected value="paranoidIdeation">Paranoidita</option>
+        <option selected value="psychoticism">Psychocismus</option>
+        <option selected value="general">Obecná závažnost psycho. onemocnění</option>
+      </select>
     </form>
 
-    {% for person in persons %}
+    {% for i, person in enumerate(persons) %}
     <div>
       {% if person['active']==1 %}
-        {{person['rank']}}. <a href="/profil?id={{ person['id']}}">{{ person['name']}}</a>
+        {{i+1}}. <a href="/profil?id={{ person['id']}}">{{ person['name']}}</a>
+        {% if "score" in person %}
+          ........... {{ person["score"] }}
+        {% end %}
       {% else %}
-        {{person['rank']}}. {{ person['name']}}
+        {{i+1}}. {{ person['name']}}
       {% end %}
     </div>
     {% end %}
