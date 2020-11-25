@@ -1,0 +1,30 @@
+.person {
+  display: flex;
+  margin: 0.5rem 0;
+  width: 100%;
+  justify-content: center;
+}
+
+.name {
+  width: 300px;
+  text-align: right;
+  padding: 0.2rem 0.3rem;
+  margin: 0 2rem;
+}
+
+.scoreBar {
+  display: flex;
+  width: 300px;
+}
+
+.score {
+  padding: 0.2rem 0.3rem;
+}
+
+.bar {
+  width: 200px;
+}
+
+.bar div{
+  height: 100%;
+}

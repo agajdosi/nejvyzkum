@@ -16,13 +16,38 @@ class Vysledky(general.GeneralHandler):
         else:
             persons = database.GetAllPersonsInList(lst, onlyActive=True)
 
+        maximum = None
+        minimum = None
         for i, person in enumerate(persons):
             if order == "default":
                 break
-            if order in ["extroversion", "agreeableness", "conscientiousness", "neuroticism", "openness"]:
-                person["score"] = sedma.getTrait(person["id"], order)
-            elif order in ["somatization", "obsessiveCompulsive", "interpersonalSensitivity", "depression", "anxiety", "hostility", "phobicAnxiety", "paranoidIdeation", "psychoticism", "general"]:
-                person["score"] = sedma.getTrait(person["id"], order)
+            if order in [
+                    "extroversion",
+                    "agreeableness",
+                    "conscientiousness",
+                    "neuroticism",
+                    "openness",
+                    "somatization",
+                    "obsessiveCompulsive",
+                    "interpersonalSensitivity",
+                    "depression",
+                    "anxiety",
+                    "hostility",
+                    "phobicAnxiety",
+                    "paranoidIdeation",
+                    "psychoticism",
+                    "general",
+                    ]:
+                score = sedma.getTrait(person["id"], order)
+                person["score"] = score
+                if maximum == None:
+                    maximum = score
+                    minimum = score
+                    continue
+                if maximum < score:
+                    maximum = score
+                if minimum > score:
+                    minimum = score
 
         if order != "default":
             persons.sort(key=lambda x: x.get('score'), reverse=True)
@@ -30,6 +55,8 @@ class Vysledky(general.GeneralHandler):
         return self.render("vysledky/vysledky.html",
             subtitle = "Výsledky výzkumu",
             persons = persons,
+            maximum = maximum,
+            minimum = minimum,
             selectedList = lst,
             lists = lists,
             url = self.request.full_url(),

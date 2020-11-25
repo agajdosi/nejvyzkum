@@ -26,7 +26,7 @@
     </h1>
 
     <form>
-      <select id="lists" name="list" onchange='form.submit()'>
+      <select id="lists" name="list">
         {% for lst in lists %}
           {% if selectedList == lst['code'] %}
             <option selected value="{{ lst['code'] }}">{{ lst['name'] }}</option>
@@ -36,43 +36,71 @@
         {% end %}
       </select>
 
-      <select id="orderBy" name="order" onchange='form.submit()'>
+      <select id="orderBy" name="order">
+        <option value="default">výchozí řazení</option>
         <option disabled>── Big Five: osobnostní rysy ────────────</option>
-        <option selected value="extroversion">Extroverze</option>
-        <option selected value="agreeableness">Přívětivost</option>
-        <option selected value="conscientiousness">Svědomitost</option>
-        <option selected value="neuroticism">Neurotismus</option>
-        <option selected value="openness">Otevřenost</option>
+        <option value="extroversion">Extroverze</option>
+        <option value="agreeableness">Přívětivost</option>
+        <option value="conscientiousness">Svědomitost</option>
+        <option value="neuroticism">Neurotismus</option>
+        <option value="openness">Otevřenost</option>
         <option disabled>── SCL90: sklony k psychickým poruchám ──</option>
-        <option selected value="somatization">Somatizace</option>
-        <option selected value="obsessiveCompulsive">Obsese-Kompulze</option>
-        <option selected value="interpersonalSensitivity">Hypersenzitivita</option>
-        <option selected value="depression">Deprese</option>
-        <option selected value="anxiety">Anxiozita</option>
-        <option selected value="hostility">Hostilita</option>
-        <option selected value="phobicAnxiety">Fóbie</option>
-        <option selected value="paranoidIdeation">Paranoidita</option>
-        <option selected value="psychoticism">Psychocismus</option>
-        <option selected value="general">Obecná závažnost psycho. onemocnění</option>
+        <option value="somatization">Somatizace</option>
+        <option value="obsessiveCompulsive">Obsese-Kompulze</option>
+        <option value="interpersonalSensitivity">Hypersenzitivita</option>
+        <option value="depression">Deprese</option>
+        <option value="anxiety">Anxiozita</option>
+        <option value="hostility">Hostilita</option>
+        <option value="phobicAnxiety">Fóbie</option>
+        <option value="paranoidIdeation">Paranoidita</option>
+        <option value="psychoticism">Psychocismus</option>
+        <option value="general">Obecná závažnost psycho. onemocnění</option>
       </select>
+
+      <input type="button" onclick="form.submit()" value="Zobrazit">
     </form>
 
     {% for i, person in enumerate(persons) %}
-    <div>
+    
+    <div class="person">
       {% if person['active']==1 %}
-        {{i+1}}. <a href="/profil?id={{ person['id']}}">{{ person['name']}}</a>
         {% if "score" in person %}
-          ........... {{ person["score"] }}
+          <div class="name">
+            <a href="/profil?id={{ person['id']}}">{{ person['name']}}</a>
+          </div>
+
+          <div class="scoreBar">
+            {% set q = (person['score'] - minimum ) / (maximum - minimum) %}
+            <div class="score" style="background-color: rgba({{q*255}}, {{(1-q)*255}}, 0, 1)">{{ round(person["score"],2) }}</div>
+            <div class="bar">
+              <div style="width: {{q*100}}%; background-color: rgba({{q*255}}, {{(1-q)*255}}, 0, 1)"></div>
+            </div>
+          </div>
+        {% else %}
+          <div class="name" style="text-align: center;">
+            {{i+1}}. <a href="/profil?id={{ person['id']}}">{{ person['name']}}</a>
+          </div>
         {% end %}
       {% else %}
-        {{i+1}}. {{ person['name']}}
+        <div class="name" style="text-align: center;">
+          {{i+1}}. {{ person['name']}}
+        </div>
       {% end %}
     </div>
+
     {% end %}
   </div>
 
   {% module Template("parts/footer.html") %}
 
 </body>
+
+<script>
+  var urlParams = new URLSearchParams(window.location.search);
+  console.log(urlParams.get('order'));
+  let element = document.getElementById("orderBy");
+  console.log(element)
+  element.value = urlParams.get('order');
+</script>
 
 </html>
