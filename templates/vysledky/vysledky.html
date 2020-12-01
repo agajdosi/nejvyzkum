@@ -97,10 +97,15 @@
 
 <script>
   var urlParams = new URLSearchParams(window.location.search);
-  console.log(urlParams.get('order'));
+  var order = urlParams.get('order');
+  if (order == null){
+    order = "default";
+  }
+
+
   let element = document.getElementById("orderBy");
   console.log(element)
-  element.value = urlParams.get('order');
+  element.value = order;
 </script>
 
 </html>
