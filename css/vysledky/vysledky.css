@@ -7,7 +7,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 4rem 0;
+  margin: 0 0 2rem 0;
+  width: 100%;
 }
 
 .personQuestion > .name {
@@ -40,9 +41,14 @@
   height: 100%;
 }
 
+.results {
+  margin: 50px 0 0 0;
+  width: 100%;
+}
+
 .person {
   display: flex;
-  margin: 0.5rem 0;
+  margin: 0 0 2rem 0;
   width: 100%;
   justify-content: center;
 }
@@ -50,8 +56,11 @@
 .name {
   width: 300px;
   text-align: right;
-  padding: 0.2rem 0.3rem;
-  margin: 0 2rem;
+  padding: 0.2rem 0;
+}
+
+.name > span {
+  padding: 0 1rem;
 }
 
 .scoreBar {

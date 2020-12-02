@@ -3,8 +3,8 @@
 <html lang="cz">
 <head>
   <meta charset="utf-8">
-  <link rel="stylesheet" type="text/css" href="/css/main.css">
-  <link rel="stylesheet" type="text/css" href="/css/vysledky/vysledky.css">
+  <link rel="stylesheet" type="text/css" href="/css/main.css?v=1.0">
+  <link rel="stylesheet" type="text/css" href="/css/vysledky/vysledky.css?v=1.0">
   <link rel='stylesheet' href='//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack-subset.css'>
 
   {% module Template("parts/tracking.html") %}
@@ -25,8 +25,8 @@
       Výsledky výzkumu
     </h1>
 
-    <form>
-      <select id="lists" name="list">
+    <form id="searchForm">
+      <select id="lists" name="list" onchange="searchChange()">
         {% for lst in lists %}
           {% if selectedList == lst['code'] %}
             <option selected value="{{ lst['code'] }}">{{ lst['name'] }}</option>
@@ -59,9 +59,7 @@
         <option disabled>── Jednotlivé otázky ────────────────────</option>
       </select>
 
-      <input type="button" onclick="form.submit()" value="Zobrazit">
-
-      <select id="questionList" name="question">
+      <select id="questionList" name="question" onchange="searchChange()">
         {% for question in questions %}
           <option selected value="{{ question['id'] }}">{{ question['cz'] }}</option>
         {% end %}
@@ -103,7 +101,7 @@
         {% elif "score" in person %}
           <div class="person">
             <div class="name">
-              <a href="/profil?id={{ person['id']}}">{{ person['name']}}</a>
+              <span><a href="/profil?id={{ person['id']}}">{{ person['name']}}</a></span>
             </div>
             <div class="scoreBar">
               {% set q = (person['score'] - minimum ) / (maximum - minimum) %}
@@ -117,7 +115,7 @@
         {% else %}
           <div class="person">
             <div class="name" style="text-align: center;">
-              {{i+1}}. <a href="/profil?id={{ person['id']}}">{{ person['name']}}</a>
+              <span>{{i+1}}. <a href="/profil?id={{ person['id']}}">{{ person['name']}}</a></span>
             </div>
           </div>
         {% end %}
@@ -125,7 +123,7 @@
       {% else %}
         <div class="person">
           <div class="name" style="text-align: center;">
-            {{i+1}}. {{ person['name']}}
+            <span>{{i+1}}. {{ person['name']}}</span>
           </div>
         </div>
       {% end %}
@@ -163,7 +161,12 @@
       document.getElementById("questionList").style.display = "block";
     } else {
       document.getElementById("questionList").style.display = "none";
-    } 
+    }
+    searchChange();
+  }
+
+  function searchChange() {
+    document.getElementById("searchForm").submit();
   }
 
 </script>
