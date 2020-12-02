@@ -22,7 +22,7 @@
   
   <div class="main">
     <h1>
-      Výsledky
+      Výsledky výzkumu
     </h1>
 
     <form>
@@ -36,8 +36,9 @@
         {% end %}
       </select>
 
-      <select id="orderBy" name="order">
-        <option value="default">výchozí řazení</option>
+      <select id="orderBy" name="order" onchange="orderChange()">
+        <option value="default">Výchozí řazení</option>
+        <option value="questions">Jednotlivé otázky uměleckého výzkumu</option>
         <option disabled>── Big Five: osobnostní rysy ────────────</option>
         <option value="extroversion">Extroverze</option>
         <option value="agreeableness">Přívětivost</option>
@@ -55,40 +56,86 @@
         <option value="paranoidIdeation">Paranoidita</option>
         <option value="psychoticism">Psychocismus</option>
         <option value="general">Obecná závažnost psycho. onemocnění</option>
+        <option disabled>── Jednotlivé otázky ────────────────────</option>
       </select>
 
       <input type="button" onclick="form.submit()" value="Zobrazit">
+
+      <select id="questionList" name="question">
+        {% for question in questions %}
+          <option selected value="{{ question['id'] }}">{{ question['cz'] }}</option>
+        {% end %}
+      </select>
+
     </form>
 
+    <div class="results">
     {% for i, person in enumerate(persons) %}
-    
-    <div class="person">
-      {% if person['active']==1 %}
-        {% if "score" in person %}
-          <div class="name">
-            <a href="/profil?id={{ person['id']}}">{{ person['name']}}</a>
-          </div>
+      {% if person['active'] == 1 %}
 
-          <div class="scoreBar">
-            {% set q = (person['score'] - minimum ) / (maximum - minimum) %}
-            <div class="score" style="background-color: rgba({{q*255}}, {{(1-q)*255}}, 0, 1)">{{ round(person["score"],2) }}</div>
-            <div class="bar">
-              <div style="width: {{q*100}}%; background-color: rgba({{q*255}}, {{(1-q)*255}}, 0, 1)"></div>
+        {% if order == "questions" %}
+          {% if person['score'] == 0.5 %}
+            {% continue %}
+          {% end %}
+          <div class="personQuestion">
+            <div class="name">
+              <a href="/profil?id={{ person['id']}}">{{ person['name']}}</a>
+            </div>
+            <div class="questionBar">
+              {% set q = ((person['score']-0.5) * 200) %}
+
+              {% if q > 0 %}
+                <div class="no">
+                  <div class="bar"></div>
+                  {{ round(q,2) }}%
+                </div>
+                <div class="yes">
+                  <div style="width: {{q}}%; background-color: rgba(0,255,0,1)"></div>
+                </div>
+              {% else %}
+                <div class="no">
+                  <div style="width: {{-q}}%; background-color: rgba(255,0,0,1)"></div>
+                </div>
+                <div class="yes">
+                  {{ round(-q,2) }}% NE
+                </div>
+              {% end %}
             </div>
           </div>
+
+        {% elif "score" in person %}
+          <div class="person">
+            <div class="name">
+              <a href="/profil?id={{ person['id']}}">{{ person['name']}}</a>
+            </div>
+            <div class="scoreBar">
+              {% set q = (person['score'] - minimum ) / (maximum - minimum) %}
+              <div class="score" style="background-color: rgba({{q*255}}, {{(1-q)*255}}, 0, 1)">{{ round(person["score"],2) }}</div>
+              <div class="bar">
+                <div style="width: {{q*100}}%; background-color: rgba({{q*255}}, {{(1-q)*255}}, 0, 1)"></div>
+              </div>
+            </div>
+          </div>
+
         {% else %}
-          <div class="name" style="text-align: center;">
-            {{i+1}}. <a href="/profil?id={{ person['id']}}">{{ person['name']}}</a>
+          <div class="person">
+            <div class="name" style="text-align: center;">
+              {{i+1}}. <a href="/profil?id={{ person['id']}}">{{ person['name']}}</a>
+            </div>
           </div>
         {% end %}
+
       {% else %}
-        <div class="name" style="text-align: center;">
-          {{i+1}}. {{ person['name']}}
+        <div class="person">
+          <div class="name" style="text-align: center;">
+            {{i+1}}. {{ person['name']}}
+          </div>
         </div>
       {% end %}
-    </div>
+
 
     {% end %}
+    </div>
   </div>
 
   {% module Template("parts/footer.html") %}
@@ -101,9 +148,27 @@
   if (order == null){
     order = "default";
   }
+  if (order == "questions") {
+    document.getElementById("questionList").style.display = "block";
+  }
+  var orderOption = document.getElementById("orderBy");
+  orderOption.value = order;
 
-  var element = document.getElementById("orderBy");
-  element.value = order;
+  var question = urlParams.get('question');
+  if (question != null){
+    var questionOption = document.getElementById("questionList");
+    questionOption.value = question;
+  }
+
+  function orderChange(){
+    orderValue = document.getElementById("orderBy").value;
+    if ( orderValue == "questions") {
+      document.getElementById("questionList").style.display = "block";
+    } else {
+      document.getElementById("questionList").style.display = "none";
+    } 
+  }
+
 </script>
 
 </html>

@@ -20,7 +20,6 @@ def make_app():
         (r"/vysledky/?", vysledky.Vysledky),
         (r"/komise/?", komise.Komise),
 
-
         (r"/sedma-trida/?", sedma.Index),
         (r"/sedma-trida/hrat/?", sedma.Main),
         (r"/sedma-trida/zajimavost/?", sedma.Zajimavost),

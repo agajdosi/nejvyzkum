@@ -1,3 +1,40 @@
+#questionList {
+  display: none;
+}
+
+.personQuestion {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 4rem 0;
+}
+
+.personQuestion > .name {
+  text-align: center;
+}
+
+.questionBar {
+  display: flex;
+  justify-content: center;
+}
+
+.yes {
+  width: 300px;
+  display: flex;
+  justify-content: left;
+}
+
+.no {
+  width: 300px;
+  display: flex;
+  justify-content: right;
+}
+
+.yes > div, .no > div {
+  height: 20px;
+}
+
 .person {
   display: flex;
   margin: 0.5rem 0;

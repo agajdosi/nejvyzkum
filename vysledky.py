@@ -8,6 +8,7 @@ class Vysledky(general.GeneralHandler):
             return
 
         order = self.get_argument("order", "default")
+        question = self.get_argument("question", None)
         lst = self.get_argument("list", "F19")
         lists = database.GetAllLists()
         
@@ -16,12 +17,18 @@ class Vysledky(general.GeneralHandler):
         else:
             persons = database.GetAllPersonsInList(lst, onlyActive=True)
 
+        questions = database.GetAllTestQuestions("korona")
+
         maximum = None
         minimum = None
         for i, person in enumerate(persons):
             if order == "default":
                 break
-            if order in [
+            elif order == "questions" and question != None:
+                person["score"] = database.GetAnswerAverage(person["id"], int(question))
+                minimum = 0
+                maximum = 1
+            elif order in [
                     "extroversion",
                     "agreeableness",
                     "conscientiousness",
@@ -48,6 +55,8 @@ class Vysledky(general.GeneralHandler):
                     maximum = score
                 if minimum > score:
                     minimum = score
+            else:
+                self.redirect("404.html")
 
         if order != "default":
             persons.sort(key=lambda x: x.get('score'), reverse=True)
@@ -58,7 +67,9 @@ class Vysledky(general.GeneralHandler):
             maximum = maximum,
             minimum = minimum,
             selectedList = lst,
+            order = order,
             lists = lists,
+            questions = questions,
             url = self.request.full_url(),
         )
 
