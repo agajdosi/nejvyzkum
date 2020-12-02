@@ -26,6 +26,8 @@
     </h1>
 
     <form id="searchForm">
+    <div id="searchAttributes">
+      <div>
       <select id="lists" name="list" onchange="searchChange()">
         {% for lst in lists %}
           {% if selectedList == lst['code'] %}
@@ -35,7 +37,9 @@
           {% end %}
         {% end %}
       </select>
+      </div>
 
+      <div>
       <select id="orderBy" name="order" onchange="orderChange()">
         <option value="default">Výchozí řazení</option>
         <option value="questions">Jednotlivé otázky uměleckého výzkumu</option>
@@ -58,6 +62,9 @@
         <option value="general">Obecná závažnost psycho. onemocnění</option>
         <option disabled>── Jednotlivé otázky ────────────────────</option>
       </select>
+      </div>
+
+    </div>
 
       <select id="questionList" name="question" onchange="searchChange()">
         {% for question in questions %}

@@ -1,5 +1,30 @@
+form {
+  width: 100%;
+}
+
+#searchAttributes {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+#searchAttributes > div {
+  width: 45%;
+  display: flex;
+}
+
+#searchAttributes > :first-child {
+  justify-content: right;
+}
+
+#searchAttributes > :first-child > select {
+  margin: 0 0.7rem 0 0;
+  width: 200px;
+}
+
 #questionList {
   display: none;
+  margin: 1.4rem 0 0 0;
 }
 
 .personQuestion {
