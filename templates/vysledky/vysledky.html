@@ -82,22 +82,19 @@
               <a href="/profil?id={{ person['id']}}">{{ person['name']}}</a>
             </div>
             <div class="questionBar">
-              {% set q = ((person['score']-0.5) * 200) %}
-
-              {% if q > 0 %}
+              {% if person['score'] > 0.5 %}
                 <div class="no">
-                  <div class="bar"></div>
-                  {{ round(q,2) }}%
+                  {{ round(person['score'] * 100, 2) }}% odpovědí ANO
                 </div>
                 <div class="yes">
-                  <div style="width: {{q}}%; background-color: rgba(0,255,0,1)"></div>
+                  <div style="width: {{ (person['score']-0.5) * 200 }}%; background-color: rgba(0,255,0,1)"></div>
                 </div>
               {% else %}
                 <div class="no">
-                  <div style="width: {{-q}}%; background-color: rgba(255,0,0,1)"></div>
+                  <div style="width: {{ (0.5-person['score']) * 200 }}%; background-color: rgba(255,0,0,1)"></div>
                 </div>
                 <div class="yes">
-                  {{ round(-q,2) }}% NE
+                  {{ round((1-person['score']) * 100, 2) }}% odpovědí NE
                 </div>
               {% end %}
             </div>
