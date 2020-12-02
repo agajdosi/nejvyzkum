@@ -84,7 +84,7 @@
             <div class="questionBar">
               {% if person['score'] > 0.5 %}
                 <div class="no">
-                  {{ round(person['score'] * 100, 2) }}% odpovědí ANO
+                  <span>{{ round(person['score'] * 100, 2) }}% odpovědí ANO</span>
                 </div>
                 <div class="yes">
                   <div style="width: {{ (person['score']-0.5) * 200 }}%; background-color: rgba(0,255,0,1)"></div>
@@ -94,7 +94,7 @@
                   <div style="width: {{ (0.5-person['score']) * 200 }}%; background-color: rgba(255,0,0,1)"></div>
                 </div>
                 <div class="yes">
-                  {{ round((1-person['score']) * 100, 2) }}% odpovědí NE
+                  <span>{{ round((1-person['score']) * 100, 2) }}% odpovědí NE</span>
                 </div>
               {% end %}
             </div>

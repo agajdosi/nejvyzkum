@@ -17,6 +17,7 @@
 .questionBar {
   display: flex;
   justify-content: center;
+  margin: 0.5rem 0 0 0;
 }
 
 .yes {
@@ -31,8 +32,12 @@
   justify-content: right;
 }
 
+.yes > span, .no > span {
+  padding: 0 0.7rem;
+}
+
 .yes > div, .no > div {
-  height: 20px;
+  height: 100%;
 }
 
 .person {
