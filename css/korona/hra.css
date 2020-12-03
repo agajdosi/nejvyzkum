@@ -46,6 +46,7 @@
 }
 
 .roles {
+    width: 100%;
     display: flex;
     justify-content: space-between;
 }
@@ -53,9 +54,9 @@
 .answerUI {
     display: flex;
     justify-content: space-between;
-    font-size: 2em;
+    font-size: 1.5em;
     align-items: flex-end;
-    margin: 30px 0;
+    margin: 0 0 30px 0;
 }
 
 #witnessUI {
@@ -69,7 +70,7 @@
 #question {
     text-align: center;
     width: 100%;
-    font-size: 2em;
+    font-size: 1.5em;
     margin: 30px 0;
 }
 
